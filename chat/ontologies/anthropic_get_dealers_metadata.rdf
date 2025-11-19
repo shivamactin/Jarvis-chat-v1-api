@@ -1,0 +1,1441 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:owl="http://www.w3.org/2002/07/owl#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+        xmlns:ex="http://example.org/ontology#">
+
+<owl:Ontology rdf:about="http://example.org/ontology#">
+    <rdfs:label>Vendor/Dealer Management System Ontology</rdfs:label>
+    <rdfs:comment>A comprehensive ontology modeling vendor and dealer management systems, including channel partners, business relationships, field metadata, user profiles, permissions, and operational workflows. This ontology captures the complete semantic structure of dealer onboarding, status management, business categorization, and multi-module integration.</rdfs:comment>
+    <owl:versionInfo>1.0</owl:versionInfo>
+</owl:Ontology>
+
+<!-- ===================================== -->
+<!-- Core Entity Classes                   -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Vendor">
+    <rdfs:label>Vendor</rdfs:label>
+    <rdfs:comment>A business entity that provides goods or services. Also referred to as a Dealer in the system. Represents channel partners, referral partners, strategic partners, consultants, system integrators, and architects.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Dealer">
+    <rdfs:label>Dealer</rdfs:label>
+    <rdfs:comment>A specialized vendor entity representing business partners who distribute or sell products. Synonymous with Vendor in this system context.</rdfs:comment>
+    <owl:equivalentClass rdf:resource="http://example.org/ontology#Vendor"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ChannelPartner">
+    <rdfs:label>Channel Partner</rdfs:label>
+    <rdfs:comment>A type of dealer that acts as an intermediary in the distribution channel, actively selling and promoting products.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReferralPartner">
+    <rdfs:label>Referral Partner</rdfs:label>
+    <rdfs:comment>A type of dealer that refers potential customers or opportunities without directly selling products.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#StrategicPartner">
+    <rdfs:label>Strategic Partner</rdfs:label>
+    <rdfs:comment>A high-level dealer with strategic business alignment and long-term collaboration agreements.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Consultant">
+    <rdfs:label>Consultant</rdfs:label>
+    <rdfs:comment>A dealer type that provides expert advice and consulting services related to products or solutions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SystemIntegrator">
+    <rdfs:label>System Integrator</rdfs:label>
+    <rdfs:comment>A dealer specializing in integrating various systems, technologies, and solutions for clients.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Architect">
+    <rdfs:label>Architect</rdfs:label>
+    <rdfs:comment>A dealer type representing architectural firms or professionals who specify and design systems.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Dealer"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Contact">
+    <rdfs:label>Contact</rdfs:label>
+    <rdfs:comment>An individual person associated with business entities, representing points of contact for communication and relationship management.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Company">
+    <rdfs:label>Company</rdfs:label>
+    <rdfs:comment>A business organization or corporate entity. Referred to as Accounts in the system.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Account">
+    <rdfs:label>Account</rdfs:label>
+    <rdfs:comment>A business account representing a company or organization in the CRM system.</rdfs:comment>
+    <owl:equivalentClass rdf:resource="http://example.org/ontology#Company"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#User">
+    <rdfs:label>User</rdfs:label>
+    <rdfs:comment>A system user who interacts with the CRM platform, including administrators, standard users, and dealers.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Owner">
+    <rdfs:label>Owner</rdfs:label>
+    <rdfs:comment>A user who has ownership responsibility for records, typically managing and overseeing specific vendors or dealers.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#User"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Campaign">
+    <rdfs:label>Campaign</rdfs:label>
+    <rdfs:comment>A marketing or business campaign that can be associated with dealers for tracking engagement and performance.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Field and Metadata Classes            -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Field">
+    <rdfs:label>Field</rdfs:label>
+    <rdfs:comment>A data field or attribute in the system that captures specific information about entities.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TextField">
+    <rdfs:label>Text Field</rdfs:label>
+    <rdfs:comment>A field that stores textual data such as names, descriptions, and addresses.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PhoneField">
+    <rdfs:label>Phone Field</rdfs:label>
+    <rdfs:comment>A field specifically for storing phone numbers with appropriate formatting.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EmailField">
+    <rdfs:label>Email Field</rdfs:label>
+    <rdfs:comment>A field for storing email addresses with validation constraints.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#WebsiteField">
+    <rdfs:label>Website Field</rdfs:label>
+    <rdfs:comment>A field for storing website URLs and web addresses.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DateField">
+    <rdfs:label>Date Field</rdfs:label>
+    <rdfs:comment>A field for storing date values without time components.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DateTimeField">
+    <rdfs:label>DateTime Field</rdfs:label>
+    <rdfs:comment>A field for storing date and time values with full timestamp information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PicklistField">
+    <rdfs:label>Picklist Field</rdfs:label>
+    <rdfs:comment>A field with predefined options from which users can select a single value.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#MultiselectPicklistField">
+    <rdfs:label>Multiselect Picklist Field</rdfs:label>
+    <rdfs:comment>A field allowing selection of multiple values from predefined options.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#LookupField">
+    <rdfs:label>Lookup Field</rdfs:label>
+    <rdfs:comment>A field that creates a relationship to another module or entity through reference.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BooleanField">
+    <rdfs:label>Boolean Field</rdfs:label>
+    <rdfs:comment>A field storing true/false or yes/no values.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#FileUploadField">
+    <rdfs:label>File Upload Field</rdfs:label>
+    <rdfs:comment>A field that allows uploading and storing file attachments.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TextAreaField">
+    <rdfs:label>Text Area Field</rdfs:label>
+    <rdfs:comment>A large text field for storing extended descriptions and multi-line content.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Status and Lifecycle Classes          -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#DealerStatus">
+    <rdfs:label>Dealer Status</rdfs:label>
+    <rdfs:comment>The current stage or state of a dealer in the onboarding and management lifecycle.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ActiveStatus">
+    <rdfs:label>Active Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer is fully operational and actively engaged.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#InactiveStatus">
+    <rdfs:label>Inactive Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer is not currently active or operational.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AgreementInReviewStatus">
+    <rdfs:label>Agreement In Review Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer agreement is under review and evaluation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AgreementIssuedStatus">
+    <rdfs:label>Agreement Issued Status</rdfs:label>
+    <rdfs:comment>Status indicating the agreement has been issued to the dealer for signature.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TrainingPendingStatus">
+    <rdfs:label>Training Pending Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer is awaiting training before full activation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RejectedStatus">
+    <rdfs:label>Rejected Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer application or partnership has been rejected.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#NonResponsiveStatus">
+    <rdfs:label>Non Responsive Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer is not responding to communications.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RecordStatus">
+    <rdfs:label>Record Status</rdfs:label>
+    <rdfs:comment>The system-level status of a record indicating its availability and state.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AvailableRecordStatus">
+    <rdfs:label>Available Record Status</rdfs:label>
+    <rdfs:comment>Status indicating the record is available and accessible.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TrashRecordStatus">
+    <rdfs:label>Trash Record Status</rdfs:label>
+    <rdfs:comment>Status indicating the record has been moved to trash and is pending deletion.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DraftRecordStatus">
+    <rdfs:label>Draft Record Status</rdfs:label>
+    <rdfs:comment>Status indicating the record is in draft state and not yet finalized.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ProfileScoreStatus">
+    <rdfs:label>Profile Score Status</rdfs:label>
+    <rdfs:comment>The evaluation status of a dealer profile based on screening and qualification criteria.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ApprovedProfileStatus">
+    <rdfs:label>Approved Profile Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer profile has been approved after evaluation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ProfileScoreStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RejectedProfileStatus">
+    <rdfs:label>Rejected Profile Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer profile has been rejected after evaluation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ProfileScoreStatus"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ExploratoryProfileStatus">
+    <rdfs:label>Exploratory Profile Status</rdfs:label>
+    <rdfs:comment>Status indicating the dealer profile is under exploratory evaluation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ProfileScoreStatus"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Business and Organizational Classes   -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#BusinessConstitution">
+    <rdfs:label>Business Constitution</rdfs:label>
+    <rdfs:comment>The legal structure or organizational form of a business entity.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PublicLimitedCompany">
+    <rdfs:label>Public Limited Company</rdfs:label>
+    <rdfs:comment>A business constitution where the company is publicly traded with limited liability.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PrivateLimitedCompany">
+    <rdfs:label>Private Limited Company</rdfs:label>
+    <rdfs:comment>A business constitution where the company is privately held with limited liability.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#LimitedLiabilityPartnership">
+    <rdfs:label>Limited Liability Partnership</rdfs:label>
+    <rdfs:comment>A business constitution combining partnership flexibility with limited liability protection.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PartnershipFirm">
+    <rdfs:label>Partnership Firm</rdfs:label>
+    <rdfs:comment>A business constitution where two or more individuals share ownership and management.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ProprietaryFirm">
+    <rdfs:label>Proprietary Firm</rdfs:label>
+    <rdfs:comment>A business constitution owned and operated by a single individual.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BusinessCategory">
+    <rdfs:label>Business Category</rdfs:label>
+    <rdfs:comment>The industry sector or business domain in which a dealer operates.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AutomationSystemsIntegrator">
+    <rdfs:label>Automation Systems Integrator</rdfs:label>
+    <rdfs:comment>Business category for companies specializing in automation and control systems integration.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BuildingManagementSystemIntegrator">
+    <rdfs:label>Building Management System Integrator</rdfs:label>
+    <rdfs:comment>Business category for companies specializing in BMS integration and management.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#HVACContractor">
+    <rdfs:label>HVAC Contractor</rdfs:label>
+    <rdfs:comment>Business category for companies providing heating, ventilation, and air conditioning services.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ElectricalContractor">
+    <rdfs:label>Electrical Contractor</rdfs:label>
+    <rdfs:comment>Business category for companies providing electrical installation and maintenance services.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#FacilityManagementCompany">
+    <rdfs:label>Facility Management Company</rdfs:label>
+    <rdfs:comment>Business category for companies providing comprehensive facility management services.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RenewableEnergySolutionProvider">
+    <rdfs:label>Renewable Energy Solution Provider</rdfs:label>
+    <rdfs:comment>Business category for companies providing renewable energy systems and solutions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DataCenterInfrastructureProvider">
+    <rdfs:label>Data Center Infrastructure Provider</rdfs:label>
+    <rdfs:comment>Business category for companies providing data center infrastructure and services.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#BusinessCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DealerCategory">
+    <rdfs:label>Dealer Category</rdfs:label>
+    <rdfs:comment>Classification of dealers based on performance, engagement, or strategic importance.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CategoryA">
+    <rdfs:label>Category A</rdfs:label>
+    <rdfs:comment>Top-tier dealer category representing highest performance or strategic value.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CategoryB">
+    <rdfs:label>Category B</rdfs:label>
+    <rdfs:comment>Mid-tier dealer category representing moderate performance or strategic value.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerCategory"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CategoryC">
+    <rdfs:label>Category C</rdfs:label>
+    <rdfs:comment>Entry-tier dealer category representing developing or emerging partnerships.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DealerCategory"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Geographic and Location Classes       -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Address">
+    <rdfs:label>Address</rdfs:label>
+    <rdfs:comment>A physical location comprising street, city, state, zip code, and country.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#GeographicZone">
+    <rdfs:label>Geographic Zone</rdfs:label>
+    <rdfs:comment>A regional classification for organizing dealers and operations geographically.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#IndiaZone">
+    <rdfs:label>India Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering the Indian subcontinent.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#MEAZone">
+    <rdfs:label>MEA Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering Middle East and Africa regions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SEAZone">
+    <rdfs:label>SEA Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering Southeast Asia region.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EUZone">
+    <rdfs:label>EU Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering European Union and surrounding regions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AmericasZone">
+    <rdfs:label>Americas Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering North and South American continents.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AustraliaNewZealandZone">
+    <rdfs:label>Australia/New Zealand Zone</rdfs:label>
+    <rdfs:comment>Geographic zone covering Australia and New Zealand regions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Cluster">
+    <rdfs:label>Cluster</rdfs:label>
+    <rdfs:comment>A city-level or regional grouping for organizing dealers within a geographic zone.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Product and Service Classes           -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Product">
+    <rdfs:label>Product</rdfs:label>
+    <rdfs:comment>A product or solution offered through the dealer network.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ShieldProduct">
+    <rdfs:label>Shield Product</rdfs:label>
+    <rdfs:comment>A product line focused on protection and security solutions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Product"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ApolloProduct">
+    <rdfs:label>Apollo Product</rdfs:label>
+    <rdfs:comment>A product line in the Apollo series.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Product"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AIS140Product">
+    <rdfs:label>AIS140 Product</rdfs:label>
+    <rdfs:comment>A product line compliant with AIS140 standards for vehicle tracking.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Product"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EquipProduct">
+    <rdfs:label>Equip Product</rdfs:label>
+    <rdfs:comment>A product line focused on equipment and device solutions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Product"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Document and File Classes             -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Document">
+    <rdfs:label>Document</rdfs:label>
+    <rdfs:comment>A file or document associated with business processes and records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CPFormDocument">
+    <rdfs:label>CP Form Document</rdfs:label>
+    <rdfs:comment>Channel Partner form document used in the onboarding process.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Document"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CPAgreementDocument">
+    <rdfs:label>CP Agreement Document</rdfs:label>
+    <rdfs:comment>Channel Partner agreement document containing terms and conditions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Document"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Permission and Access Classes         -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Profile">
+    <rdfs:label>Profile</rdfs:label>
+    <rdfs:comment>A user profile defining permissions and access levels in the system.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AdministratorProfile">
+    <rdfs:label>Administrator Profile</rdfs:label>
+    <rdfs:comment>Profile with full administrative access and permissions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Profile"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#StandardProfile">
+    <rdfs:label>Standard Profile</rdfs:label>
+    <rdfs:comment>Profile with standard user access and permissions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Profile"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DealerProfile">
+    <rdfs:label>Dealer Profile</rdfs:label>
+    <rdfs:comment>Profile specifically for dealer users with limited access to relevant information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Profile"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Permission">
+    <rdfs:label>Permission</rdfs:label>
+    <rdfs:comment>A specific access right or capability granted to a profile.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReadWritePermission">
+    <rdfs:label>Read Write Permission</rdfs:label>
+    <rdfs:comment>Permission allowing both reading and writing of data.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Permission"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReadOnlyPermission">
+    <rdfs:label>Read Only Permission</rdfs:label>
+    <rdfs:comment>Permission allowing only reading of data without modification.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Permission"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Activity and Event Classes            -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Visit">
+    <rdfs:label>Visit</rdfs:label>
+    <rdfs:comment>A physical or virtual visit to a dealer location or meeting.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#FirstVisit">
+    <rdfs:label>First Visit</rdfs:label>
+    <rdfs:comment>The initial visit to establish relationship and understand dealer operations.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Visit"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SecondVisit">
+    <rdfs:label>Second Visit</rdfs:label>
+    <rdfs:comment>A follow-up visit for continued engagement and support.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Visit"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#VisitObjective">
+    <rdfs:label>Visit Objective</rdfs:label>
+    <rdfs:comment>The purpose or goal of a dealer visit.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RelationshipBuildingObjective">
+    <rdfs:label>Relationship Building Objective</rdfs:label>
+    <rdfs:comment>Visit objective focused on establishing and strengthening business relationships.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#VisitObjective"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TechnicalSupportObjective">
+    <rdfs:label>Technical Support Objective</rdfs:label>
+    <rdfs:comment>Visit objective focused on providing technical assistance and training.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#VisitObjective"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SalesFollowUpObjective">
+    <rdfs:label>Sales Follow-up Objective</rdfs:label>
+    <rdfs:comment>Visit objective focused on following up on sales opportunities and deals.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#VisitObjective"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Activity">
+    <rdfs:label>Activity</rdfs:label>
+    <rdfs:comment>A recorded action or event in the system related to dealer management.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Communication and Preference Classes  -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#CommunicationPreference">
+    <rdfs:label>Communication Preference</rdfs:label>
+    <rdfs:comment>Settings and preferences for how a dealer wishes to be contacted.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EmailOptOut">
+    <rdfs:label>Email Opt Out</rdfs:label>
+    <rdfs:comment>Preference indicating the dealer has opted out of email communications.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CommunicationPreference"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#UnsubscribeMode">
+    <rdfs:label>Unsubscribe Mode</rdfs:label>
+    <rdfs:comment>The method or channel through which a dealer unsubscribed from communications.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Layout and UI Classes                 -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Layout">
+    <rdfs:label>Layout</rdfs:label>
+    <rdfs:comment>A user interface layout defining how fields are organized and displayed.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#StandardLayout">
+    <rdfs:label>Standard Layout</rdfs:label>
+    <rdfs:comment>The default layout configuration for displaying dealer information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Layout"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Module">
+    <rdfs:label>Module</rdfs:label>
+    <rdfs:comment>A functional component or section of the CRM system.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#VendorsModule">
+    <rdfs:label>Vendors Module</rdfs:label>
+    <rdfs:comment>The CRM module dedicated to managing vendor and dealer information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Module"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ContactsModule">
+    <rdfs:label>Contacts Module</rdfs:label>
+    <rdfs:comment>The CRM module for managing contact information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Module"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AccountsModule">
+    <rdfs:label>Accounts Module</rdfs:label>
+    <rdfs:comment>The CRM module for managing company and account information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Module"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CampaignsModule">
+    <rdfs:label>Campaigns Module</rdfs:label>
+    <rdfs:comment>The CRM module for managing marketing campaigns.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Module"/>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Object Properties - Relationships     -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasOwner">
+    <rdfs:label>has owner</rdfs:label>
+    <rdfs:comment>Relates a vendor/dealer record to the user who owns and manages it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Owner"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#ownedBy">
+    <rdfs:label>owned by</rdfs:label>
+    <rdfs:comment>Inverse of hasOwner. Indicates which records a user owns.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Owner"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasOwner"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasContact">
+    <rdfs:label>has contact</rdfs:label>
+    <rdfs:comment>Relates a vendor to associated contact persons.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Contact"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#contactFor">
+    <rdfs:label>contact for</rdfs:label>
+    <rdfs:comment>Inverse of hasContact. Indicates which vendor a contact is associated with.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Contact"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasContact"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasCompany">
+    <rdfs:label>has company</rdfs:label>
+    <rdfs:comment>Relates a vendor to associated company accounts.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Company"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#companyFor">
+    <rdfs:label>company for</rdfs:label>
+    <rdfs:comment>Inverse of hasCompany. Indicates which vendor a company is associated with.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Company"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasCompany"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasDealerStatus">
+    <rdfs:label>has dealer status</rdfs:label>
+    <rdfs:comment>Relates a dealer to their current status in the lifecycle.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#DealerStatus"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#statusOf">
+    <rdfs:label>status of</rdfs:label>
+    <rdfs:comment>Inverse of hasDealerStatus. Indicates which dealer has this status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#DealerStatus"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Dealer"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasDealerStatus"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasRecordStatus">
+    <rdfs:label>has record status</rdfs:label>
+    <rdfs:comment>Relates a record to its system-level status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#RecordStatus"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasProfileScoreStatus">
+    <rdfs:label>has profile score status</rdfs:label>
+    <rdfs:comment>Relates a dealer to their profile evaluation status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#ProfileScoreStatus"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasBusinessConstitution">
+    <rdfs:label>has business constitution</rdfs:label>
+    <rdfs:comment>Relates a vendor to their legal business structure.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#BusinessConstitution"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasBusinessCategory">
+    <rdfs:label>has business category</rdfs:label>
+    <rdfs:comment>Relates a vendor to their industry or business domain.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#BusinessCategory"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasDealerCategory">
+    <rdfs:label>has dealer category</rdfs:label>
+    <rdfs:comment>Relates a dealer to their performance or strategic classification.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#DealerCategory"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasAddress">
+    <rdfs:label>has address</rdfs:label>
+    <rdfs:comment>Relates a vendor to their physical address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Address"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#addressOf">
+    <rdfs:label>address of</rdfs:label>
+    <rdfs:comment>Inverse of hasAddress. Indicates which vendor an address belongs to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasAddress"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#locatedInZone">
+    <rdfs:label>located in zone</rdfs:label>
+    <rdfs:comment>Relates a vendor to their geographic zone.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#GeographicZone"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#containsVendor">
+    <rdfs:label>contains vendor</rdfs:label>
+    <rdfs:comment>Inverse of locatedInZone. Indicates which vendors are in a zone.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#GeographicZone"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#locatedInZone"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#locatedInCluster">
+    <rdfs:label>located in cluster</rdfs:label>
+    <rdfs:comment>Relates a vendor to their city-level cluster.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Cluster"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#containsCluster">
+    <rdfs:label>contains cluster</rdfs:label>
+    <rdfs:comment>Relates a geographic zone to its constituent clusters.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#GeographicZone"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Cluster"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#clusterWithinZone">
+    <rdfs:label>cluster within zone</rdfs:label>
+    <rdfs:comment>Inverse of containsCluster. Indicates which zone a cluster belongs to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Cluster"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#GeographicZone"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#containsCluster"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#focusesOnProduct">
+    <rdfs:label>focuses on product</rdfs:label>
+    <rdfs:comment>Relates a dealer to products they specialize in or promote.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Product"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#promotedBy">
+    <rdfs:label>promoted by</rdfs:label>
+    <rdfs:comment>Inverse of focusesOnProduct. Indicates which dealers promote a product.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Product"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Dealer"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#focusesOnProduct"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasDocument">
+    <rdfs:label>has document</rdfs:label>
+    <rdfs:comment>Relates a vendor to associated documents and files.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Document"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#documentFor">
+    <rdfs:label>document for</rdfs:label>
+    <rdfs:comment>Inverse of hasDocument. Indicates which vendor a document belongs to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Document"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasDocument"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasProfile">
+    <rdfs:label>has profile</rdfs:label>
+    <rdfs:comment>Relates a user to their permission profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Profile"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#profileOf">
+    <rdfs:label>profile of</rdfs:label>
+    <rdfs:comment>Inverse of hasProfile. Indicates which users have a profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Profile"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#User"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasProfile"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#grantsPermission">
+    <rdfs:label>grants permission</rdfs:label>
+    <rdfs:comment>Relates a profile to the permissions it grants.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Profile"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Permission"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#permissionGrantedBy">
+    <rdfs:label>permission granted by</rdfs:label>
+    <rdfs:comment>Inverse of grantsPermission. Indicates which profile grants a permission.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Profile"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#grantsPermission"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasVisit">
+    <rdfs:label>has visit</rdfs:label>
+    <rdfs:comment>Relates a dealer to visits conducted with them.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Visit"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#visitTo">
+    <rdfs:label>visit to</rdfs:label>
+    <rdfs:comment>Inverse of hasVisit. Indicates which dealer a visit was conducted with.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Visit"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Dealer"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasVisit"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasObjective">
+    <rdfs:label>has objective</rdfs:label>
+    <rdfs:comment>Relates a visit to its stated objective or purpose.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Visit"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#VisitObjective"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#objectiveOf">
+    <rdfs:label>objective of</rdfs:label>
+    <rdfs:comment>Inverse of hasObjective. Indicates which visit has this objective.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#VisitObjective"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Visit"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasObjective"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#associatedWithCampaign">
+    <rdfs:label>associated with campaign</rdfs:label>
+    <rdfs:comment>Relates a dealer to marketing campaigns they are involved in.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Campaign"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#includesDealer">
+    <rdfs:label>includes dealer</rdfs:label>
+    <rdfs:comment>Inverse of associatedWithCampaign. Indicates which dealers are in a campaign.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Campaign"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Dealer"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#associatedWithCampaign"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#modifiedBy">
+    <rdfs:label>modified by</rdfs:label>
+    <rdfs:comment>Relates a record to the user who last modified it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#User"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasModified">
+    <rdfs:label>has modified</rdfs:label>
+    <rdfs:comment>Inverse of modifiedBy. Indicates which records a user has modified.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Vendor"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#modifiedBy"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasField">
+    <rdfs:label>has field</rdfs:label>
+    <rdfs:comment>Relates a module or layout to the fields it contains.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#fieldOf">
+    <rdfs:label>field of</rdfs:label>
+    <rdfs:comment>Inverse of hasField. Indicates which module a field belongs to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Module"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasField"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasCommunicationPreference">
+    <rdfs:label>has communication preference</rdfs:label>
+    <rdfs:comment>Relates a vendor to their communication preferences.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#CommunicationPreference"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasUnsubscribeMode">
+    <rdfs:label>has unsubscribe mode</rdfs:label>
+    <rdfs:comment>Relates a vendor to the method they used to unsubscribe.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#UnsubscribeMode"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#usesLayout">
+    <rdfs:label>uses layout</rdfs:label>
+    <rdfs:comment>Relates a module to the layout it uses for display.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Layout"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#layoutFor">
+    <rdfs:label>layout for</rdfs:label>
+    <rdfs:comment>Inverse of usesLayout. Indicates which module uses a layout.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Layout"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Module"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#usesLayout"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasActivity">
+    <rdfs:label>has activity</rdfs:label>
+    <rdfs:comment>Relates a dealer to activities recorded in the system.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Activity"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#activityFor">
+    <rdfs:label>activity for</rdfs:label>
+    <rdfs:comment>Inverse of hasActivity. Indicates which dealer an activity relates to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Activity"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Dealer"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasActivity"/>
+</owl:ObjectProperty>
+
+<!-- Temporal Relationships -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#precedes">
+    <rdfs:label>precedes</rdfs:label>
+    <rdfs:comment>Indicates that one visit or event occurs before another in time.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Visit"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Visit"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#follows">
+    <rdfs:label>follows</rdfs:label>
+    <rdfs:comment>Indicates that one visit or event occurs after another in time.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Visit"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Visit"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#precedes"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#transitionsTo">
+    <rdfs:label>transitions to</rdfs:label>
+    <rdfs:comment>Indicates a dealer status can transition to another status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#DealerStatus"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#DealerStatus"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#transitionsFrom">
+    <rdfs:label>transitions from</rdfs:label>
+    <rdfs:comment>Indicates a dealer status can be reached from another status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#DealerStatus"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#DealerStatus"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#transitionsTo"/>
+</owl:ObjectProperty>
+
+<!-- Dependency Relationships -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#requires">
+    <rdfs:label>requires</rdfs:label>
+    <rdfs:comment>Indicates that one entity or process requires another to function or proceed.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#requiredBy">
+    <rdfs:label>required by</rdfs:label>
+    <rdfs:comment>Inverse of requires. Indicates what requires this entity.</rdfs:comment>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#requires"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#dependsOn">
+    <rdfs:label>depends on</rdfs:label>
+    <rdfs:comment>Indicates a dependency relationship between entities or processes.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#supports">
+    <rdfs:label>supports</rdfs:label>
+    <rdfs:comment>Indicates that one entity provides support or enables another.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#supportedBy">
+    <rdfs:label>supported by</rdfs:label>
+    <rdfs:comment>Inverse of supports. Indicates what provides support.</rdfs:comment>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#supports"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Attributes          -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#vendorName">
+    <rdfs:label>vendor name</rdfs:label>
+    <rdfs:comment>The name of the vendor or dealer organization.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#dealerName">
+    <rdfs:label>dealer name</rdfs:label>
+    <rdfs:comment>The name of the dealer. Equivalent to vendor name.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <owl:equivalentProperty rdf:resource="http://example.org/ontology#vendorName"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#phoneNumber">
+    <rdfs:label>phone number</rdfs:label>
+    <rdfs:comment>The contact phone number for the vendor.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#emailAddress">
+    <rdfs:label>email address</rdfs:label>
+    <rdfs:comment>The email address for contacting the vendor.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#websiteURL">
+    <rdfs:label>website URL</rdfs:label>
+    <rdfs:comment>The website URL of the vendor organization.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#logoURL">
+    <rdfs:label>logo URL</rdfs:label>
+    <rdfs:comment>The URL pointing to the vendor's logo image.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#streetAddress">
+    <rdfs:label>street address</rdfs:label>
+    <rdfs:comment>The street component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#city">
+    <rdfs:label>city</rdfs:label>
+    <rdfs:comment>The city component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#state">
+    <rdfs:label>state</rdfs:label>
+    <rdfs:comment>The state or province component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#zipCode">
+    <rdfs:label>zip code</rdfs:label>
+    <rdfs:comment>The postal or zip code component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#country">
+    <rdfs:label>country</rdfs:label>
+    <rdfs:comment>The country component of an address.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#description">
+    <rdfs:label>description</rdfs:label>
+    <rdfs:comment>A textual description providing additional information about the vendor.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#otherBusinessCategory">
+    <rdfs:label>other business category</rdfs:label>
+    <rdfs:comment>Free text description when business category is 'Other'.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#recordId">
+    <rdfs:label>record ID</rdfs:label>
+    <rdfs:comment>The unique system identifier for a record.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#modifiedTime">
+    <rdfs:label>modified time</rdfs:label>
+    <rdfs:comment>The timestamp when the record was last modified.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#createdDate">
+    <rdfs:label>created date</rdfs:label>
+    <rdfs:comment>The date when the record was created.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#activationDate">
+    <rdfs:label>activation date</rdfs:label>
+    <rdfs:comment>The date when the dealer was activated in the system.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#firstVisitDate">
+    <rdfs:label>first visit date</rdfs:label>
+    <rdfs:comment>The date of the first visit to the dealer.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#FirstVisit"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#secondVisitDate">
+    <rdfs:label>second visit date</rdfs:label>
+    <rdfs:comment>The date of the second visit to the dealer.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#SecondVisit"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#lastActivityTime">
+    <rdfs:label>last activity time</rdfs:label>
+    <rdfs:comment>The timestamp of the most recent activity for the dealer.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Dealer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#unsubscribedTime">
+    <rdfs:label>unsubscribed time</rdfs:label>
+    <rdfs:comment>The timestamp when the vendor unsubscribed from communications.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#emailOptOut">
+    <rdfs:label>email opt out</rdfs:label>
+    <rdfs:comment>Boolean indicating whether the vendor has opted out of email communications.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isLocked">
+    <rdfs:label>is locked</rdfs:label>
+    <rdfs:comment>Boolean indicating whether the record is locked for editing.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Vendor"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isVisible">
+    <rdfs:label>is visible</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field is visible in the UI.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isFilterable">
+    <rdfs:label>is filterable</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field can be used for filtering.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isSearchable">
+    <rdfs:label>is searchable</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field can be searched.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isSortable">
+    <rdfs:label>is sortable</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field can be used for sorting.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isMandatory">
+    <rdfs:label>is mandatory</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field is required.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isReadOnly">
+    <rdfs:label>is read only</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field is read-only.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isCustomField">
+    <rdfs:label>is custom field</rdfs:label>
+    <rdfs:comment>Boolean indicating whether a field is custom-created vs system-defined.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#fieldLabel">
+    <rdfs:label>field label</rdfs:label>
+    <rdfs:comment>The display label for a field in the user interface.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#apiName">
+    <rdfs:label>API name</rdfs:label>
+    <rdfs:comment>The programmatic API name for a field or entity.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#dataType">
+    <rdfs:label>data type</rdfs:label>
+    <rdfs:comment>The data type of a field (text, date, picklist, etc.).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#maxLength">
+    <rdfs:label>max length</rdfs:label>
+    <rdfs:comment>The maximum character length for a text field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#TextField"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#sequenceNumber">
+    <rdfs:label>sequence number</rdfs:label>
+    <rdfs:comment>The display order or sequence position of an item.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#quickSequenceNumber">
+    <rdfs:label>quick sequence number</rdfs:label>
+    <rdfs:comment>The sequence position in quick create forms.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#tooltipText">
+    <rdfs:label>tooltip text</rdfs:label>
+    <rdfs:comment>Helpful text displayed when hovering over a field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#picklistValue">
+    <rdfs:label>picklist value</rdfs:label>
+    <rdfs:comment>A selectable value in a picklist field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistField"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#displayValue">
+    <rdfs:label>display value</rdfs:label>
+    <rdfs:comment>The human-readable display value for a picklist option.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#actualValue">
+    <rdfs:label>actual value</rdfs:label>
+    <rdfs:comment>The stored internal value for a picklist option.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#colourCode">
+    <rdfs:label>colour code</rdfs:label>
+    <rdfs:comment>A color code associated with a picklist value for visual distinction.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#permissionType">
+    <rdfs:label>permission type</rdfs:label>
+    <rdfs:comment>The type of permission granted (read_write, read_only, etc.).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#profileName">
+    <rdfs:label>profile name</rdfs:label>
+    <rdfs:comment>The name of a user profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Profile"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#profileId">
+    <rdfs:label>profile ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Profile"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#layoutName">
+    <rdfs:label>layout name</rdfs:label>
+    <rdfs:comment>The name of a layout configuration.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Layout"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#moduleName">
+    <rdfs:label>module name</rdfs:label>
+    <rdfs:comment>The name of a CRM module.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#campaignName">
+    <rdfs:label>campaign name</rdfs:label>
+    <rdfs:comment>The name of a marketing campaign.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Campaign"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#clusterName">
+    <rdfs:label>cluster name</rdfs:label>
+    <rdfs:comment>The name of a geographic cluster (typically a city).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Cluster"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#zoneName">
+    <rdfs:label>zone name</rdfs:label>
+    <rdfs:comment>The name of a geographic zone.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#GeographicZone"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Class Disjointness Axioms             -->
+<!-- ===================================== -->
+
+<rdf:Description rdf:about="http://example.org/ontology#ChannelPartner">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#ReferralPartner"/>
+    <owl:disjointWith rdf:resource="http://example.org/ontology#Consultant"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#ActiveStatus">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#InactiveStatus"/>
+    <owl:disjointWith rdf:resource="http://example.org/ontology#RejectedStatus"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#ApprovedProfileStatus">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#RejectedProfileStatus"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#AvailableRecordStatus">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#TrashRecordStatus"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#ReadWritePermission">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#ReadOnlyPermission"/>
+</rdf:Description>
+
+<!-- ===================================== -->
+<!-- Property Characteristics              -->
+<!-- ===================================== -->
+
+<rdf:Description rdf:about="http://example.org/ontology#containsCluster">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#locatedInZone">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#recordId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+</rdf:Description>
+
+</rdf:RDF>

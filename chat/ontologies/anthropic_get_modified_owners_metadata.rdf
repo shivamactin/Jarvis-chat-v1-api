@@ -1,0 +1,1498 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:owl="http://www.w3.org/2002/07/owl#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+        xmlns:ex="http://example.org/ontology#">
+
+<owl:Ontology rdf:about="http://example.org/ontology#">
+    <rdfs:label>Custom Module Field Metadata Ontology</rdfs:label>
+    <rdfs:comment>A comprehensive ontology representing field metadata structures, including field types, properties, permissions, operations, and relationships within a CRM or custom module system. This ontology captures the complete semantic model of field definitions, user profiles, layout associations, and data management operations.</rdfs:comment>
+    <owl:versionInfo>1.0</owl:versionInfo>
+</owl:Ontology>
+
+<!-- ===================================== -->
+<!-- Core Entity Classes                   -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Field">
+    <rdfs:label>Field</rdfs:label>
+    <rdfs:comment>Represents a data field within a module or form. Fields are the fundamental units of data capture and storage, each with specific properties, types, and behaviors.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SystemField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>System Field</rdfs:label>
+    <rdfs:comment>A field automatically managed by the system, typically non-customizable and essential for system operations.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CustomField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Custom Field</rdfs:label>
+    <rdfs:comment>A user-defined field that can be customized, modified, or removed according to business requirements.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReadOnlyField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Read Only Field</rdfs:label>
+    <rdfs:comment>A field that can be viewed but not modified by users, typically containing system-generated or protected data.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EditableField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Editable Field</rdfs:label>
+    <rdfs:comment>A field that users can modify according to their permissions and the field's configuration.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#MandatoryField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Mandatory Field</rdfs:label>
+    <rdfs:comment>A field that must contain a value before a record can be saved or submitted.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#VirtualField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Virtual Field</rdfs:label>
+    <rdfs:comment>A field that does not store data directly but is computed or derived from other fields or sources.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DisplayField">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:label>Display Field</rdfs:label>
+    <rdfs:comment>A field designated as the primary display identifier for records in list views and references.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Field Type Classes                    -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#FieldType">
+    <rdfs:label>Field Type</rdfs:label>
+    <rdfs:comment>Represents the data type and behavior category of a field, determining how data is stored, validated, and displayed.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TextFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Text Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing textual data with configurable length constraints.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PicklistFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Picklist Field Type</rdfs:label>
+    <rdfs:comment>A field type that presents users with a predefined list of values to choose from.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#LookupFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Lookup Field Type</rdfs:label>
+    <rdfs:comment>A field type that creates relationships between records by referencing another module or entity.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#OwnerLookupFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#LookupFieldType"/>
+    <rdfs:label>Owner Lookup Field Type</rdfs:label>
+    <rdfs:comment>A specialized lookup field type for referencing users or teams who own or are responsible for records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DateTimeFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>DateTime Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing date and time information with timezone considerations.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BigIntFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>BigInt Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing large integer values, typically used for unique identifiers.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ProfileImageFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Profile Image Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing and displaying profile or record images.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BooleanFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Boolean Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing true/false or yes/no values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TagFieldType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:label>Tag Field Type</rdfs:label>
+    <rdfs:comment>A field type for storing multiple tags or labels as an array of values.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Data Type Classes                     -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#DataType">
+    <rdfs:label>Data Type</rdfs:label>
+    <rdfs:comment>Represents the underlying data storage type for field values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TextDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>Text Data Type</rdfs:label>
+    <rdfs:comment>Data type for textual information.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#PicklistDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>Picklist Data Type</rdfs:label>
+    <rdfs:comment>Data type for predefined selection values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#OwnerLookupDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>Owner Lookup Data Type</rdfs:label>
+    <rdfs:comment>Data type for owner reference relationships.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DateTimeDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>DateTime Data Type</rdfs:label>
+    <rdfs:comment>Data type for temporal information.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BigIntDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>BigInt Data Type</rdfs:label>
+    <rdfs:comment>Data type for large integer values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ProfileImageDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>Profile Image Data Type</rdfs:label>
+    <rdfs:comment>Data type for image file references.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BooleanDataType">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:label>Boolean Data Type</rdfs:label>
+    <rdfs:comment>Data type for binary true/false values.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- JSON Type Classes                     -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#JsonType">
+    <rdfs:label>JSON Type</rdfs:label>
+    <rdfs:comment>Represents the JSON serialization format for field values in API responses.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#JsonString">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdfs:label>JSON String</rdfs:label>
+    <rdfs:comment>JSON string type for textual values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#JsonObject">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdfs:label>JSON Object</rdfs:label>
+    <rdfs:comment>JSON object type for complex structured data.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#JsonArray">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdfs:label>JSON Array</rdfs:label>
+    <rdfs:comment>JSON array type for multiple values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#JsonBoolean">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdfs:label>JSON Boolean</rdfs:label>
+    <rdfs:comment>JSON boolean type for true/false values.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Operation and Permission Classes      -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#OperationType">
+    <rdfs:label>Operation Type</rdfs:label>
+    <rdfs:comment>Represents the types of operations that can be performed on a field through different interfaces.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#WebCreateOperation">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#OperationType"/>
+    <rdfs:label>Web Create Operation</rdfs:label>
+    <rdfs:comment>Operation for creating records through the web interface.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#WebUpdateOperation">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#OperationType"/>
+    <rdfs:label>Web Update Operation</rdfs:label>
+    <rdfs:comment>Operation for updating records through the web interface.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ApiCreateOperation">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#OperationType"/>
+    <rdfs:label>API Create Operation</rdfs:label>
+    <rdfs:comment>Operation for creating records through the API.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ApiUpdateOperation">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#OperationType"/>
+    <rdfs:label>API Update Operation</rdfs:label>
+    <rdfs:comment>Operation for updating records through the API.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#UserProfile">
+    <rdfs:label>User Profile</rdfs:label>
+    <rdfs:comment>Represents a user profile or role that determines access permissions and capabilities within the system.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AdministratorProfile">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:label>Administrator Profile</rdfs:label>
+    <rdfs:comment>A profile with full administrative privileges and access to all system features.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#StandardProfile">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:label>Standard Profile</rdfs:label>
+    <rdfs:comment>A profile with standard user permissions for regular operations.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DealerProfile">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:label>Dealer Profile</rdfs:label>
+    <rdfs:comment>A specialized profile for dealer users with specific business permissions.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Permission">
+    <rdfs:label>Permission</rdfs:label>
+    <rdfs:comment>Represents access rights granted to profiles for specific fields or operations.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReadWritePermission">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:label>Read Write Permission</rdfs:label>
+    <rdfs:comment>Permission allowing both viewing and modifying data.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ReadOnlyPermission">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:label>Read Only Permission</rdfs:label>
+    <rdfs:comment>Permission allowing only viewing data without modification rights.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- View and Layout Classes               -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#ViewType">
+    <rdfs:label>View Type</rdfs:label>
+    <rdfs:comment>Represents different contexts in which a field can be displayed or edited.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DetailView">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ViewType"/>
+    <rdfs:label>Detail View</rdfs:label>
+    <rdfs:comment>A view showing complete record details.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EditView">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ViewType"/>
+    <rdfs:label>Edit View</rdfs:label>
+    <rdfs:comment>A view for modifying record data.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CreateView">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ViewType"/>
+    <rdfs:label>Create View</rdfs:label>
+    <rdfs:comment>A view for creating new records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#QuickCreateView">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#ViewType"/>
+    <rdfs:label>Quick Create View</rdfs:label>
+    <rdfs:comment>A simplified view for rapid record creation.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Layout">
+    <rdfs:label>Layout</rdfs:label>
+    <rdfs:comment>Represents the arrangement and organization of fields within a module or form.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#LayoutAssociation">
+    <rdfs:label>Layout Association</rdfs:label>
+    <rdfs:comment>Represents the relationship between a field and a specific layout configuration.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Picklist and Value Classes            -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#PicklistValue">
+    <rdfs:label>Picklist Value</rdfs:label>
+    <rdfs:comment>Represents an individual option within a picklist field.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RecordStatusValue">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:label>Record Status Value</rdfs:label>
+    <rdfs:comment>A picklist value representing the status of a record.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#UnsubscribedModeValue">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:label>Unsubscribed Mode Value</rdfs:label>
+    <rdfs:comment>A picklist value representing how a user unsubscribed from communications.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#GlobalPicklist">
+    <rdfs:label>Global Picklist</rdfs:label>
+    <rdfs:comment>A reusable picklist that can be shared across multiple fields and modules.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Module and Record Classes             -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Module">
+    <rdfs:label>Module</rdfs:label>
+    <rdfs:comment>Represents a functional unit or entity type within the system, containing related fields and records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#CustomModule">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:label>Custom Module</rdfs:label>
+    <rdfs:comment>A user-defined module created to meet specific business requirements.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Record">
+    <rdfs:label>Record</rdfs:label>
+    <rdfs:comment>Represents an individual data entry or instance within a module.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#RecordStatus">
+    <rdfs:label>Record Status</rdfs:label>
+    <rdfs:comment>Represents the current state or lifecycle stage of a record.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AvailableStatus">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+    <rdfs:label>Available Status</rdfs:label>
+    <rdfs:comment>Status indicating a record is available and active.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#DraftStatus">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+    <rdfs:label>Draft Status</rdfs:label>
+    <rdfs:comment>Status indicating a record is in draft state and not yet finalized.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TrashStatus">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#RecordStatus"/>
+    <rdfs:label>Trash Status</rdfs:label>
+    <rdfs:comment>Status indicating a record has been deleted or moved to trash.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Feature and Capability Classes        -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Feature">
+    <rdfs:label>Feature</rdfs:label>
+    <rdfs:comment>Represents a capability or functionality available for fields or modules.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#WebhookFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Webhook Feature</rdfs:label>
+    <rdfs:comment>Feature enabling webhook notifications for field changes.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#FilterableFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Filterable Feature</rdfs:label>
+    <rdfs:comment>Feature allowing fields to be used in search filters.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SearchableFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Searchable Feature</rdfs:label>
+    <rdfs:comment>Feature enabling full-text search on field values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SortableFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Sortable Feature</rdfs:label>
+    <rdfs:comment>Feature allowing records to be sorted by field values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#MassUpdateFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Mass Update Feature</rdfs:label>
+    <rdfs:comment>Feature enabling bulk updates of field values across multiple records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#HistoryTrackingFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>History Tracking Feature</rdfs:label>
+    <rdfs:comment>Feature enabling audit trail of field value changes over time.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BlueprintFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Blueprint Feature</rdfs:label>
+    <rdfs:comment>Feature enabling workflow automation based on field values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#BusinessCardFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Business Card Feature</rdfs:label>
+    <rdfs:comment>Feature enabling display of field values in business card format.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ColourCodeFeature">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:label>Colour Code Feature</rdfs:label>
+    <rdfs:comment>Feature enabling visual color coding of field values.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Email and Parser Classes              -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#EmailParser">
+    <rdfs:label>Email Parser</rdfs:label>
+    <rdfs:comment>Represents email parsing capabilities for extracting field values from email content.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EmailParserConfiguration">
+    <rdfs:label>Email Parser Configuration</rdfs:label>
+    <rdfs:comment>Configuration settings for email parsing behavior on specific fields.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Customization and Property Classes    -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#CustomizableProperty">
+    <rdfs:label>Customizable Property</rdfs:label>
+    <rdfs:comment>Represents a field property that can be modified by administrators.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#FieldLabelProperty">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+    <rdfs:label>Field Label Property</rdfs:label>
+    <rdfs:comment>Property controlling the display label of a field.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#MaxLengthProperty">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+    <rdfs:label>Max Length Property</rdfs:label>
+    <rdfs:comment>Property controlling the maximum length of field values.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#UniqueProperty">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+    <rdfs:label>Unique Property</rdfs:label>
+    <rdfs:comment>Property enforcing uniqueness of field values across records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#TooltipProperty">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+    <rdfs:label>Tooltip Property</rdfs:label>
+    <rdfs:comment>Property providing help text for fields.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#EncryptedProperty">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+    <rdfs:label>Encrypted Property</rdfs:label>
+    <rdfs:comment>Property enabling encryption of sensitive field data.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Temporal and Audit Classes            -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#TemporalEntity">
+    <rdfs:label>Temporal Entity</rdfs:label>
+    <rdfs:comment>An entity with temporal properties tracking creation and modification times.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#AuditableEntity">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#TemporalEntity"/>
+    <rdfs:label>Auditable Entity</rdfs:label>
+    <rdfs:comment>An entity that tracks who created and modified it, along with timestamps.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ActivityTracking">
+    <rdfs:label>Activity Tracking</rdfs:label>
+    <rdfs:comment>Represents tracking of user activities and interactions with records.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Ownership and User Classes            -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#Owner">
+    <rdfs:label>Owner</rdfs:label>
+    <rdfs:comment>Represents a user or team that owns or is responsible for a record.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#User">
+    <rdfs:label>User</rdfs:label>
+    <rdfs:comment>Represents a system user who can create, modify, and interact with records.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Creator">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:label>Creator</rdfs:label>
+    <rdfs:comment>A user who created a specific record or entity.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#Modifier">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:label>Modifier</rdfs:label>
+    <rdfs:comment>A user who last modified a specific record or entity.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Communication and Subscription Classes -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#UnsubscriptionMode">
+    <rdfs:label>Unsubscription Mode</rdfs:label>
+    <rdfs:comment>Represents the method by which a user unsubscribed from communications.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ConsentFormMode">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UnsubscriptionMode"/>
+    <rdfs:label>Consent Form Mode</rdfs:label>
+    <rdfs:comment>Unsubscription through a consent form.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ManualMode">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UnsubscriptionMode"/>
+    <rdfs:label>Manual Mode</rdfs:label>
+    <rdfs:comment>Manual unsubscription by an administrator.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#UnsubscribeLinkMode">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UnsubscriptionMode"/>
+    <rdfs:label>Unsubscribe Link Mode</rdfs:label>
+    <rdfs:comment>Unsubscription through an email unsubscribe link.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#ZohoCampaignsMode">
+    <rdfs:subClassOf rdf:resource="http://example.org/ontology#UnsubscriptionMode"/>
+    <rdfs:label>Zoho Campaigns Mode</rdfs:label>
+    <rdfs:comment>Unsubscription through Zoho Campaigns integration.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Lock and Security Classes             -->
+<!-- ===================================== -->
+
+<owl:Class rdf:about="http://example.org/ontology#LockStatus">
+    <rdfs:label>Lock Status</rdfs:label>
+    <rdfs:comment>Represents whether a record is locked from editing.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.org/ontology#SecurityConstraint">
+    <rdfs:label>Security Constraint</rdfs:label>
+    <rdfs:comment>Represents security rules and access controls applied to fields or records.</rdfs:comment>
+</owl:Class>
+
+<!-- ===================================== -->
+<!-- Object Properties - Field Relationships -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasFieldType">
+    <rdfs:label>has field type</rdfs:label>
+    <rdfs:comment>Relates a field to its type definition.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#FieldType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#isFieldTypeOf">
+    <rdfs:label>is field type of</rdfs:label>
+    <rdfs:comment>Inverse of hasFieldType.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#FieldType"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasFieldType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasDataType">
+    <rdfs:label>has data type</rdfs:label>
+    <rdfs:comment>Relates a field to its underlying data storage type.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#DataType"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasJsonType">
+    <rdfs:label>has JSON type</rdfs:label>
+    <rdfs:comment>Relates a field to its JSON serialization type.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#belongsToModule">
+    <rdfs:label>belongs to module</rdfs:label>
+    <rdfs:comment>Relates a field to the module it belongs to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Module"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#containsField">
+    <rdfs:label>contains field</rdfs:label>
+    <rdfs:comment>Relates a module to the fields it contains.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#belongsToModule"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasPicklistValue">
+    <rdfs:label>has picklist value</rdfs:label>
+    <rdfs:comment>Relates a picklist field to its available values.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#PicklistValue"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#isPicklistValueOf">
+    <rdfs:label>is picklist value of</rdfs:label>
+    <rdfs:comment>Inverse of hasPicklistValue.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasPicklistValue"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Permission and Profile -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasPermission">
+    <rdfs:label>has permission</rdfs:label>
+    <rdfs:comment>Relates a field to permission settings for different profiles.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Permission"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#grantsPermissionTo">
+    <rdfs:label>grants permission to</rdfs:label>
+    <rdfs:comment>Relates a permission to the profile it applies to.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#UserProfile"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasProfile">
+    <rdfs:label>has profile</rdfs:label>
+    <rdfs:comment>Relates a user to their profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#UserProfile"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#isProfileOf">
+    <rdfs:label>is profile of</rdfs:label>
+    <rdfs:comment>Inverse of hasProfile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#User"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasProfile"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Layout and View   -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasLayoutAssociation">
+    <rdfs:label>has layout association</rdfs:label>
+    <rdfs:comment>Relates a field to its layout associations.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#LayoutAssociation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#associatedWithLayout">
+    <rdfs:label>associated with layout</rdfs:label>
+    <rdfs:comment>Relates a layout association to the actual layout.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#LayoutAssociation"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Layout"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#visibleInView">
+    <rdfs:label>visible in view</rdfs:label>
+    <rdfs:comment>Relates a field to the views where it is visible.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#ViewType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#displaysField">
+    <rdfs:label>displays field</rdfs:label>
+    <rdfs:comment>Relates a view to the fields it displays.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#ViewType"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#visibleInView"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Operations        -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#supportsOperation">
+    <rdfs:label>supports operation</rdfs:label>
+    <rdfs:comment>Relates a field to the operations it supports.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#OperationType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#isSupportedBy">
+    <rdfs:label>is supported by</rdfs:label>
+    <rdfs:comment>Inverse of supportsOperation.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#OperationType"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#supportsOperation"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Features          -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasFeature">
+    <rdfs:label>has feature</rdfs:label>
+    <rdfs:comment>Relates a field to the features it supports.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Feature"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#isFeatureOf">
+    <rdfs:label>is feature of</rdfs:label>
+    <rdfs:comment>Inverse of hasFeature.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Feature"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasFeature"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Ownership and Audit -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasOwner">
+    <rdfs:label>has owner</rdfs:label>
+    <rdfs:comment>Relates a record to its owner.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Owner"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#owns">
+    <rdfs:label>owns</rdfs:label>
+    <rdfs:comment>Relates an owner to the records they own.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Owner"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Record"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasOwner"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#createdBy">
+    <rdfs:label>created by</rdfs:label>
+    <rdfs:comment>Relates a record to the user who created it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Creator"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#created">
+    <rdfs:label>created</rdfs:label>
+    <rdfs:comment>Relates a creator to the records they created.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Creator"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Record"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#createdBy"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#modifiedBy">
+    <rdfs:label>modified by</rdfs:label>
+    <rdfs:comment>Relates a record to the user who last modified it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Modifier"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#modified">
+    <rdfs:label>modified</rdfs:label>
+    <rdfs:comment>Relates a modifier to the records they modified.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Modifier"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Record"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#modifiedBy"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasPreviousOwner">
+    <rdfs:label>has previous owner</rdfs:label>
+    <rdfs:comment>Relates a record to its previous owner before ownership transfer.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Owner"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#previouslyOwned">
+    <rdfs:label>previously owned</rdfs:label>
+    <rdfs:comment>Relates an owner to records they previously owned.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Owner"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Record"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasPreviousOwner"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Status and State  -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasRecordStatus">
+    <rdfs:label>has record status</rdfs:label>
+    <rdfs:comment>Relates a record to its current status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#RecordStatus"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasLockStatus">
+    <rdfs:label>has lock status</rdfs:label>
+    <rdfs:comment>Relates a record to its lock status.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#LockStatus"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasUnsubscriptionMode">
+    <rdfs:label>has unsubscription mode</rdfs:label>
+    <rdfs:comment>Relates a record to the method of unsubscription.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#UnsubscriptionMode"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Email Parser      -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasEmailParserConfiguration">
+    <rdfs:label>has email parser configuration</rdfs:label>
+    <rdfs:comment>Relates a field to its email parser configuration.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#EmailParserConfiguration"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Customization     -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasCustomizableProperty">
+    <rdfs:label>has customizable property</rdfs:label>
+    <rdfs:comment>Relates a field to properties that can be customized.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#CustomizableProperty"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Hierarchical      -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasParentField">
+    <rdfs:label>has parent field</rdfs:label>
+    <rdfs:comment>Relates a field to its parent field in hierarchical structures.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#hasChildField">
+    <rdfs:label>has child field</rdfs:label>
+    <rdfs:comment>Relates a field to its child fields.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hasParentField"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Dependencies      -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#dependsOn">
+    <rdfs:label>depends on</rdfs:label>
+    <rdfs:comment>Relates a field to other fields it depends on for functionality.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#requiredBy">
+    <rdfs:label>required by</rdfs:label>
+    <rdfs:comment>Relates a field to fields that require it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#dependsOn"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Object Properties - Global Picklist  -->
+<!-- ===================================== -->
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#usesGlobalPicklist">
+    <rdfs:label>uses global picklist</rdfs:label>
+    <rdfs:comment>Relates a field to a global picklist it uses.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#GlobalPicklist"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org/ontology#usedByField">
+    <rdfs:label>used by field</rdfs:label>
+    <rdfs:comment>Relates a global picklist to fields that use it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#GlobalPicklist"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Field"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#usesGlobalPicklist"/>
+</owl:ObjectProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Field Identifiers   -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#fieldId">
+    <rdfs:label>field ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#apiName">
+    <rdfs:label>API name</rdfs:label>
+    <rdfs:comment>The API name used to reference the field programmatically.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#fieldLabel">
+    <rdfs:label>field label</rdfs:label>
+    <rdfs:comment>The display label shown to users for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#displayLabel">
+    <rdfs:label>display label</rdfs:label>
+    <rdfs:comment>The label displayed in the user interface.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Field Configuration -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#fieldLength">
+    <rdfs:label>field length</rdfs:label>
+    <rdfs:comment>The maximum length of the field value.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isVisible">
+    <rdfs:label>is visible</rdfs:label>
+    <rdfs:comment>Indicates whether the field is visible to users.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isReadOnly">
+    <rdfs:label>is read only</rdfs:label>
+    <rdfs:comment>Indicates whether the field is read-only.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isFieldReadOnly">
+    <rdfs:label>is field read only</rdfs:label>
+    <rdfs:comment>Indicates whether the field itself is read-only at the field level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isSystemMandatory">
+    <rdfs:label>is system mandatory</rdfs:label>
+    <rdfs:comment>Indicates whether the field is mandatory at the system level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isCustomField">
+    <rdfs:label>is custom field</rdfs:label>
+    <rdfs:comment>Indicates whether the field is a custom field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isStaticField">
+    <rdfs:label>is static field</rdfs:label>
+    <rdfs:comment>Indicates whether the field is a static system field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isVirtualField">
+    <rdfs:label>is virtual field</rdfs:label>
+    <rdfs:comment>Indicates whether the field is virtual (computed).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isDisplayField">
+    <rdfs:label>is display field</rdfs:label>
+    <rdfs:comment>Indicates whether the field is the primary display field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isPublic">
+    <rdfs:label>is public</rdfs:label>
+    <rdfs:comment>Indicates whether the field is publicly accessible.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#hasSeparator">
+    <rdfs:label>has separator</rdfs:label>
+    <rdfs:comment>Indicates whether the field has a visual separator.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#tooltip">
+    <rdfs:label>tooltip</rdfs:label>
+    <rdfs:comment>Help text displayed as a tooltip for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Feature Flags       -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#webhookEnabled">
+    <rdfs:label>webhook enabled</rdfs:label>
+    <rdfs:comment>Indicates whether webhook notifications are enabled for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isFilterable">
+    <rdfs:label>is filterable</rdfs:label>
+    <rdfs:comment>Indicates whether the field can be used in filters.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isSearchable">
+    <rdfs:label>is searchable</rdfs:label>
+    <rdfs:comment>Indicates whether the field is searchable.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isSortable">
+    <rdfs:label>is sortable</rdfs:label>
+    <rdfs:comment>Indicates whether records can be sorted by this field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#supportsMassUpdate">
+    <rdfs:label>supports mass update</rdfs:label>
+    <rdfs:comment>Indicates whether the field supports bulk updates.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#historyTrackingEnabled">
+    <rdfs:label>history tracking enabled</rdfs:label>
+    <rdfs:comment>Indicates whether change history is tracked for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#blueprintSupported">
+    <rdfs:label>blueprint supported</rdfs:label>
+    <rdfs:comment>Indicates whether the field is supported in blueprint workflows.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#businessCardSupported">
+    <rdfs:label>business card supported</rdfs:label>
+    <rdfs:comment>Indicates whether the field is displayed in business card views.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#colourCodeEnabled">
+    <rdfs:label>colour code enabled</rdfs:label>
+    <rdfs:comment>Indicates whether color coding is enabled for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#colourCodeEnabledBySystem">
+    <rdfs:label>colour code enabled by system</rdfs:label>
+    <rdfs:comment>Indicates whether color coding is enabled at the system level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#pickListValuesSortedLexically">
+    <rdfs:label>picklist values sorted lexically</rdfs:label>
+    <rdfs:comment>Indicates whether picklist values are sorted alphabetically.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Operation Flags     -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#webCreateEnabled">
+    <rdfs:label>web create enabled</rdfs:label>
+    <rdfs:comment>Indicates whether the field is available during web-based record creation.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#webUpdateEnabled">
+    <rdfs:label>web update enabled</rdfs:label>
+    <rdfs:comment>Indicates whether the field can be updated through the web interface.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#apiCreateEnabled">
+    <rdfs:label>API create enabled</rdfs:label>
+    <rdfs:comment>Indicates whether the field is available during API-based record creation.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#apiUpdateEnabled">
+    <rdfs:label>API update enabled</rdfs:label>
+    <rdfs:comment>Indicates whether the field can be updated through the API.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - View Flags          -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#visibleInDetailView">
+    <rdfs:label>visible in detail view</rdfs:label>
+    <rdfs:comment>Indicates whether the field is visible in detail view.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#visibleInEditView">
+    <rdfs:label>visible in edit view</rdfs:label>
+    <rdfs:comment>Indicates whether the field is visible in edit view.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#visibleInCreateView">
+    <rdfs:label>visible in create view</rdfs:label>
+    <rdfs:comment>Indicates whether the field is visible in create view.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#visibleInQuickCreateView">
+    <rdfs:label>visible in quick create view</rdfs:label>
+    <rdfs:comment>Indicates whether the field is visible in quick create view.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Temporal            -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#createdTime">
+    <rdfs:label>created time</rdfs:label>
+    <rdfs:comment>The timestamp when the entity was created.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#TemporalEntity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#modifiedTime">
+    <rdfs:label>modified time</rdfs:label>
+    <rdfs:comment>The timestamp when the entity was last modified.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#TemporalEntity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#lastActivityTime">
+    <rdfs:label>last activity time</rdfs:label>
+    <rdfs:comment>The timestamp of the last activity on the record.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#unsubscribedTime">
+    <rdfs:label>unsubscribed time</rdfs:label>
+    <rdfs:comment>The timestamp when the user unsubscribed.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Picklist Values     -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#picklistDisplayValue">
+    <rdfs:label>picklist display value</rdfs:label>
+    <rdfs:comment>The display value shown to users for a picklist option.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#picklistActualValue">
+    <rdfs:label>picklist actual value</rdfs:label>
+    <rdfs:comment>The actual stored value for a picklist option.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#picklistReferenceValue">
+    <rdfs:label>picklist reference value</rdfs:label>
+    <rdfs:comment>The reference value for a picklist option.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#sequenceNumber">
+    <rdfs:label>sequence number</rdfs:label>
+    <rdfs:comment>The order position of a picklist value.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#colourCode">
+    <rdfs:label>colour code</rdfs:label>
+    <rdfs:comment>The color code associated with a picklist value.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#picklistValueId">
+    <rdfs:label>picklist value ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a picklist value.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PicklistValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Profile and Permission -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#profileId">
+    <rdfs:label>profile ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a user profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#profileName">
+    <rdfs:label>profile name</rdfs:label>
+    <rdfs:comment>The name of the user profile.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#UserProfile"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#permissionType">
+    <rdfs:label>permission type</rdfs:label>
+    <rdfs:comment>The type of permission granted (e.g., read_write, read_only).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Permission"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Layout              -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#layoutId">
+    <rdfs:label>layout ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a layout.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Layout"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#layoutName">
+    <rdfs:label>layout name</rdfs:label>
+    <rdfs:comment>The name of the layout.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Layout"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#layoutApiName">
+    <rdfs:label>layout API name</rdfs:label>
+    <rdfs:comment>The API name for the layout.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Layout"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#quickSequenceNumber">
+    <rdfs:label>quick sequence number</rdfs:label>
+    <rdfs:comment>The sequence number for field ordering in quick create view.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Email Parser        -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#fieldsUpdateSupported">
+    <rdfs:label>fields update supported</rdfs:label>
+    <rdfs:comment>Indicates whether field updates are supported by email parser.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#EmailParserConfiguration"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#recordOperationsSupported">
+    <rdfs:label>record operations supported</rdfs:label>
+    <rdfs:comment>Indicates whether record operations are supported by email parser.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#EmailParserConfiguration"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Type Indicators     -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#dataTypeName">
+    <rdfs:label>data type name</rdfs:label>
+    <rdfs:comment>The name of the data type.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#DataType"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#jsonTypeName">
+    <rdfs:label>JSON type name</rdfs:label>
+    <rdfs:comment>The name of the JSON type.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#JsonType"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#uiType">
+    <rdfs:label>UI type</rdfs:label>
+    <rdfs:comment>The UI type code for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#displayType">
+    <rdfs:label>display type</rdfs:label>
+    <rdfs:comment>The display type code for the field.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#createdSource">
+    <rdfs:label>created source</rdfs:label>
+    <rdfs:comment>The source from which the field was created.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#usageType">
+    <rdfs:label>usage type</rdfs:label>
+    <rdfs:comment>The usage type of the field (e.g., used, unused).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Field"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Record              -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#recordId">
+    <rdfs:label>record ID</rdfs:label>
+    <rdfs:comment>The unique identifier for a record.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#recordName">
+    <rdfs:label>record name</rdfs:label>
+    <rdfs:comment>The name or title of the record.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#isLocked">
+    <rdfs:label>is locked</rdfs:label>
+    <rdfs:comment>Indicates whether the record is locked from editing.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#recordImageUrl">
+    <rdfs:label>record image URL</rdfs:label>
+    <rdfs:comment>The URL of the record's profile image.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#previousOwnerName">
+    <rdfs:label>previous owner name</rdfs:label>
+    <rdfs:comment>The name of the previous owner of the record.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Record"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Data Properties - Module              -->
+<!-- ===================================== -->
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#moduleApiName">
+    <rdfs:label>module API name</rdfs:label>
+    <rdfs:comment>The API name of the module.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org/ontology#moduleName">
+    <rdfs:label>module name</rdfs:label>
+    <rdfs:comment>The display name of the module.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Module"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<!-- ===================================== -->
+<!-- Disjoint Classes                      -->
+<!-- ===================================== -->
+
+<rdf:Description rdf:about="http://example.org/ontology#SystemField">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#CustomField"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#ReadOnlyField">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#EditableField"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#ReadWritePermission">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#ReadOnlyPermission"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://example.org/ontology#AvailableStatus">
+    <owl:disjointWith rdf:resource="http://example.org/ontology#DraftStatus"/>
+    <owl:disjointWith rdf:resource="http://example.org/ontology#TrashStatus"/>
+</rdf:Description>
+
+</rdf:RDF>

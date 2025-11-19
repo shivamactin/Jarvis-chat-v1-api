@@ -1,0 +1,606 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:ex="http://example.org/ontology#">
+  <owl:Ontology rdf:about="http://example.org/ontology/modules/devops_final.rdf"/>
+  <!-- =========================== Classes =========================== -->
+  <owl:Class rdf:about="http://example.org/ontology#Organization">
+    <rdfs:label>
+Organization</rdfs:label>
+    <rdfs:comment>
+An Azure DevOps organization that contains projects, users, and global settings (e.g., TORAI).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Project">
+    <rdfs:label>
+Project</rdfs:label>
+    <rdfs:comment>
+A logical container for code, work items, repos, pipelines, teams, areas and iterations.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Team">
+    <rdfs:label>
+Team</rdfs:label>
+    <rdfs:comment>
+A group of users associated with a project; may own area/iteration backlogs and sprint boards.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Area">
+    <rdfs:label>
+Area</rdfs:label>
+    <rdfs:comment>
+Project area path used to categorize work items (hierarchical path like Embedded/Firmware Development).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Iteration">
+    <rdfs:label>
+Iteration</rdfs:label>
+    <rdfs:comment>
+Timeboxed cadence (sprint) with startDate and finishDate used to schedule work.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#WorkItem">
+    <rdfs:label>
+Work Item</rdfs:label>
+    <rdfs:comment>
+Generic work item entity (Epic, User Story, Bug, Support, etc.) with state, assigned user and relations.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Epic">
+    <rdfs:label>
+Epic</rdfs:label>
+    <rdfs:comment>
+High-level work item representing large bodies of work, usually parent of User Stories.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#UserStory">
+    <rdfs:label>
+User Story</rdfs:label>
+    <rdfs:comment>
+Work item representing a feature or requirement to be implemented.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Bug">
+    <rdfs:label>
+Bug</rdfs:label>
+    <rdfs:comment>
+Work item representing a defect to be fixed.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Support">
+    <rdfs:label>
+Support</rdfs:label>
+    <rdfs:comment>
+Work item representing support requests or maintenance tasks.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#User">
+    <rdfs:label>
+User</rdfs:label>
+    <rdfs:comment>
+A human actor / identity (assigned_to field) who performs actions in the organization.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Relation">
+    <rdfs:label>
+Relation</rdfs:label>
+    <rdfs:comment>
+Logical link between work items (hierarchy-forward/reverse, related, dependency, etc.).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Repository">
+    <rdfs:label>
+Repository</rdfs:label>
+    <rdfs:comment>
+Source control repository (Azure Repos Git) containing branches, commits, pull requests.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Branch">
+    <rdfs:label>
+Branch</rdfs:label>
+    <rdfs:comment>
+Version-control branch within a repository (e.g., development, release branches).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Commit">
+    <rdfs:label>
+Commit</rdfs:label>
+    <rdfs:comment>
+Source control commit with message, author, date and id (SHA).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#PullRequest">
+    <rdfs:label>
+Pull Request</rdfs:label>
+    <rdfs:comment>
+Code review object that proposes merging changes from a source branch into a target branch.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Pipeline">
+    <rdfs:label>
+Pipeline</rdfs:label>
+    <rdfs:comment>
+CI/CD pipeline definition (build or multi-stage pipeline) that triggers builds, tests and releases.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Build">
+    <rdfs:label>
+Build</rdfs:label>
+    <rdfs:comment>
+Execution instance of a pipeline producing artifacts and test results.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Release">
+    <rdfs:label>
+Release</rdfs:label>
+    <rdfs:comment>
+Deployment instance or pipeline stage that promotes artifacts into environments.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Artifact">
+    <rdfs:label>
+Artifact</rdfs:label>
+    <rdfs:comment>
+Build outputs (binaries, packages) that are consumed by release pipelines or other builds.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Agent">
+    <rdfs:label>
+Agent</rdfs:label>
+    <rdfs:comment>
+Execution agent/runner that executes pipeline jobs.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Environment">
+    <rdfs:label>
+Environment</rdfs:label>
+    <rdfs:comment>
+Logical deployment target (dev, test, stage, prod) used by releases and approvals.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Approval">
+    <rdfs:label>
+Approval</rdfs:label>
+    <rdfs:comment>
+Manual gate or approval required to progress a release to an environment.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="http://example.org/ontology#Policy">
+    <rdfs:label>
+Policy</rdfs:label>
+    <rdfs:comment>
+Repository or branch policies (e.g., required reviewers, build validation, merge strategy).</rdfs:comment>
+  </owl:Class>
+  <!-- Disjointness: work item specializations are mutually exclusive -->
+  <owl:AllDisjointClasses>
+  <owl:AllDifferent rdf:parseType="Collection">
+    <rdf:Description rdf:about="http://example.org/ontology#Epic"/>
+    <rdf:Description rdf:about="http://example.org/ontology#UserStory"/>
+    <rdf:Description rdf:about="http://example.org/ontology#Bug"/>
+    <rdf:Description rdf:about="http://example.org/ontology#Support"/>
+  </owl:AllDifferent>
+  </owl:AllDisjointClasses>
+  <!-- =========================== Data Properties =========================== -->
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#hasID">
+    <rdfs:label>
+has ID</rdfs:label>
+    <rdfs:comment>
+Unique identifier for entities (project id GUID, work item numeric id, commit SHA, etc.).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#hasNumericID">
+    <rdfs:label>
+has numeric ID</rdfs:label>
+    <rdfs:comment>
+Numeric identifier used by Azure DevOps for work items (e.g., 155, 316).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:about="http://example.org/ontology#hasUniqueID">
+    <rdfs:label>
+has unique ID</rdfs:label>
+    <rdfs:comment>
+Functional property indicating an entity has exactly one unique identifier string.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#hasTitle">
+    <rdfs:label>
+has title</rdfs:label>
+    <rdfs:comment>
+Short human readable title (work item title, project name).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#hasState">
+    <rdfs:label>
+has state</rdfs:label>
+    <rdfs:comment>
+Status/state of work items/builds/releases (New, Active, Closed, Resolved).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#startDate">
+    <rdfs:label>
+start date</rdfs:label>
+    <rdfs:comment>
+Start date of an iteration (xsd:dateTime).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#finishDate">
+    <rdfs:label>
+finish date</rdfs:label>
+    <rdfs:comment>
+Finish date of an iteration (xsd:dateTime).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#areaPath">
+    <rdfs:label>
+area path</rdfs:label>
+    <rdfs:comment>
+String representation of the area path (e.g., Embedded/Firmware Development).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#iterationPath">
+    <rdfs:label>
+iteration path</rdfs:label>
+    <rdfs:comment>
+String representation of the iteration path (e.g., Embedded/Iteration 52).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#assignedToName">
+    <rdfs:label>
+assigned to name</rdfs:label>
+    <rdfs:comment>
+Human-readable name of the assigned user (from dataset: assigned_to).</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <!-- =========================== Object Properties =========================== -->
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#organizationHasProject">
+    <rdfs:label>
+organization has project</rdfs:label>
+    <rdfs:comment>
+Organization contains one or more projects.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Organization"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#projectBelongsToOrganization"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectBelongsToOrganization">
+    <rdfs:label>
+project belongs to organization</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Organization"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectHasTeam">
+    <rdfs:label>
+project has team</rdfs:label>
+    <rdfs:comment>
+Project contains teams (e.g., Firmware Development, Embedded QA).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Team"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#teamWorksInProject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#teamWorksInProject">
+    <rdfs:label>
+team works in project</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Team"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectHasArea">
+    <rdfs:label>
+project has area</rdfs:label>
+    <rdfs:comment>
+Project declares area nodes.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Area"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#areaBelongsToProject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#areaBelongsToProject">
+    <rdfs:label>
+area belongs to project</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Area"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectHasIteration">
+    <rdfs:label>
+project has iteration</rdfs:label>
+    <rdfs:comment>
+Project declares iterations/sprints.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Iteration"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#iterationBelongsToProject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#iterationBelongsToProject">
+    <rdfs:label>
+iteration belongs to project</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Iteration"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectHasWorkItem">
+    <rdfs:label>
+project has work item</rdfs:label>
+    <rdfs:comment>
+Project contains work items (epics, stories, bugs).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#workItemInProject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#workItemInProject">
+    <rdfs:label>
+work item in project</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#workItemAssignedTo">
+    <rdfs:label>
+work item assigned to</rdfs:label>
+    <rdfs:comment>
+Assigns a work item to a User (assigned_to field in dataset).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#User"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#userAssignedWorkItem"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#userAssignedWorkItem">
+    <rdfs:label>
+user assigned work item</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#workItemHasRelation">
+    <rdfs:label>
+work item has relation</rdfs:label>
+    <rdfs:comment>
+Links a work item to another via Relation (hierarchy-forward, hierarchy-reverse, related, dependency).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Relation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#relationTargetsWorkItem">
+    <rdfs:label>
+relation targets work item</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Relation"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#repositoryInProject">
+    <rdfs:label>
+repository in project</rdfs:label>
+    <rdfs:comment>
+Repository belongs to a project.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Repository"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Project"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#projectHasRepository"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#projectHasRepository">
+    <rdfs:label>
+project has repository</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Project"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Repository"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#repositoryHasBranch">
+    <rdfs:label>
+repository has branch</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Repository"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Branch"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#branchInRepository"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#branchInRepository">
+    <rdfs:label>
+branch in repository</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Branch"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Repository"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#branchHasCommit">
+    <rdfs:label>
+branch has commit</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Branch"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Commit"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#commitOnBranch"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#commitOnBranch">
+    <rdfs:label>
+commit on branch</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Commit"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Branch"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#pullRequestFromBranch">
+    <rdfs:label>
+pull request from branch</rdfs:label>
+    <rdfs:comment>
+Pull request originates from a source branch and targets a destination branch.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PullRequest"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Branch"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#pullRequestTargetsBranch">
+    <rdfs:label>
+pull request targets branch</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#PullRequest"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Branch"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#pipelineProducesBuild">
+    <rdfs:label>
+pipeline produces build</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Pipeline"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Build"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#buildProducesArtifact">
+    <rdfs:label>
+build produces artifact</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Build"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Artifact"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#releaseDeploysTo">
+    <rdfs:label>
+release deploys to</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Release"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Environment"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#releaseRequiresApproval">
+    <rdfs:label>
+release requires approval</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Release"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Approval"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#pipelineRunsOnAgent">
+    <rdfs:label>
+pipeline runs on agent</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Pipeline"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Agent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#policyAppliesTo">
+    <rdfs:label>
+policy applies to</rdfs:label>
+    <rdfs:comment>
+Policy applies to repository or branch.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Policy"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Repository"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#userMemberOfTeam">
+    <rdfs:label>
+user member of team</rdfs:label>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Team"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#collaboratesWith">
+    <rdfs:label>
+collaborates with</rdfs:label>
+    <rdfs:comment>
+Symmetric collaboration relationship between users or teams.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#User"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#User"/>
+  </owl:ObjectProperty>
+  <!-- Relations representing common System.LinkTypes from dataset -->
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#hierarchyForward">
+    <rdfs:label>
+hierarchy forward</rdfs:label>
+    <rdfs:comment>
+Work item hierarchy forward (parent -&gt; child links recorded in dataset as System.LinkTypes.Hierarchy-Forward).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+    <owl:inverseOf rdf:resource="http://example.org/ontology#hierarchyReverse"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#hierarchyReverse">
+    <rdfs:label>
+hierarchy reverse</rdfs:label>
+    <rdfs:comment>
+Inverse of hierarchy forward (child -&gt; parent link).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#relatedWorkItem">
+    <rdfs:label>
+related work item</rdfs:label>
+    <rdfs:comment>
+Generic related link between two work items.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+    <owl:SymmetricProperty rdf:resource="http://example.org/ontology#relatedWorkItem"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#dependsOn">
+    <rdfs:label>
+depends on</rdfs:label>
+    <rdfs:comment>
+Work item dependency relation (transitive).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+  </owl:ObjectProperty>
+  <!-- Make dependsOn transitive -->
+  <owl:TransitiveProperty rdf:about="http://example.org/ontology#dependsOn"/>
+  <!-- Part-of style transitive property (areas / iterations / subareas) -->
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#isPartOf">
+    <rdfs:label>
+is part of</rdfs:label>
+    <rdfs:comment>
+Generic part-of relation for hierarchical structures (area, iteration).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Area"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#Area"/>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:about="http://example.org/ontology#isPartOf"/>
+  <!-- Inverse functional property for unique resource identification such as project GUID or repository URL -->
+  <owl:InverseFunctionalProperty rdf:about="http://example.org/ontology#hasUniqueID"/>
+  <!-- =========================== Property chains and axioms =========================== -->
+  <!-- Property chain example: workItem -> hierarchyForward -> hierarchyForward implies transitive parent-child; declare a transitive parentOf property via chain -->
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#parentOf">
+    <rdfs:label>
+parent of</rdfs:label>
+    <rdfs:comment>
+Transitive parent relationship derived from repeated hierarchyForward links.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#WorkItem"/>
+    <rdfs:range rdf:resource="http://example.org/ontology#WorkItem"/>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:about="http://example.org/ontology#parentOf"/>
+  <owl:Axiom>
+    <owl:annotatedSource rdf:resource="http://example.org/ontology#parentOf"/>
+    <owl:annotatedProperty rdf:resource="http://www.w3.org/2002/07/owl#propertyChainAxiom"/>
+    <owl:annotatedTarget rdf:parseType="Collection">
+      <rdf:Description rdf:about="http://example.org/ontology#hierarchyForward"/>
+      <rdf:Description rdf:about="http://example.org/ontology#hierarchyForward"/>
+    </owl:annotatedTarget>
+  </owl:Axiom>
+  <!-- Another property chain: commitOnBranch o branchInRepository -> repositoryHasCommit -->
+  <owl:Axiom>
+    <owl:annotatedSource rdf:resource="http://example.org/ontology#projectHasRepository"/>
+    <owl:annotatedProperty rdf:resource="http://www.w3.org/2002/07/owl#propertyChainAxiom"/>
+    <owl:annotatedTarget rdf:parseType="Collection">
+      <rdf:Description rdf:about="http://example.org/ontology#projectHasRepository"/>
+      <rdf:Description rdf:about="http://example.org/ontology#repositoryHasBranch"/>
+    </owl:annotatedTarget>
+  </owl:Axiom>
+  <!-- =========================== Restrictions (cardinality / domain-specific) =========================== -->
+  <!-- Project must have a name/title (at least one title) -->
+  <!-- WorkItem requires exactly one numeric id (Azure DevOps work items) -->
+  <owl:Restriction>
+    <owl:onProperty rdf:resource="http://example.org/ontology#hasNumericID"/>
+    <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1
+    </owl:cardinality>
+  </owl:Restriction>
+  <!-- A WorkItem may have zero or more relations; declare domain/range earlier. -->
+  <!-- Team must belong to at least one Project -->
+  <!-- Repository functional identification (e.g., URL or name unique within a project) -->
+  <owl:DatatypeProperty rdf:about="http://example.org/ontology#repositoryURL">
+    <rdfs:label>
+repository URL</rdfs:label>
+    <rdfs:comment>
+Unique URL or clone URL for a repository.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </owl:DatatypeProperty>
+  <owl:InverseFunctionalProperty rdf:about="http://example.org/ontology#repositoryURL"/>
+  <!-- =========================== Example individuals (small set derived from metadata) NOTE: Individuals are optional; include a few to anchor ontology to dataset =========================== -->
+  <owl:NamedIndividual rdf:about="http://example.org/ontology#TORAI">
+    <rdf:type rdf:resource="http://example.org/ontology#Organization"/>
+    <ex:hasTitle>
+TORAI</ex:hasTitle>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/ontology#Project_Embedded">
+    <rdf:type rdf:resource="http://example.org/ontology#Project"/>
+    <ex:hasUniqueID>
+19514539-77d4-4b81-b768-a3d944cf9b9e</ex:hasUniqueID>
+    <ex:hasTitle>
+Embedded</ex:hasTitle>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://example.org/ontology#Team_FirmwareDevelopment">
+    <rdf:type rdf:resource="http://example.org/ontology#Team"/>
+    <ex:hasTitle>
+Firmware Development</ex:hasTitle>
+  </owl:NamedIndividual>
+  <!-- Organizational membership -->
+  <rdf:Description rdf:about="http://example.org/ontology#TORAI">
+    <ex:organizationHasProject rdf:resource="http://example.org/ontology#Project_Embedded"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/ontology#Project_Embedded">
+    <ex:projectHasTeam rdf:resource="http://example.org/ontology#Team_FirmwareDevelopment"/>
+  </rdf:Description>
+  <!-- =========================== Notes about dataset semantics (encoded as annotations) =========================== -->
+  <owl:AnnotationProperty rdf:about="http://example.org/ontology#sourceDataset"/>
+  <owl:Axiom>
+    <owl:annotatedSource rdf:resource="http://example.org/ontology#Organization"/>
+    <owl:annotatedProperty rdf:resource="http://example.org/ontology#sourceDataset"/>
+    <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#string">azure_devops_light_dump
+ 1.json</owl:annotatedTarget>
+  </owl:Axiom>
+  <!-- =========================== Additional structural properties =========================== -->
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#hasAreaPath">
+    <rdfs:label>
+has area path</rdfs:label>
+    <rdfs:comment>
+Links an Area to its path string (redundant but useful for queries).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Area"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://example.org/ontology#hasIterationPath">
+    <rdfs:label>
+has iteration path</rdfs:label>
+    <rdfs:comment>
+Links an Iteration to its path string.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://example.org/ontology#Iteration"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:ObjectProperty>
+  <!-- =========================== Semantic inference hints =========================== -->
+  <owl:Class rdf:about="http://example.org/ontology#HierarchyTopItem">
+    <rdfs:label>
+Hierarchy Top Item</rdfs:label>
+    <rdfs:comment>
+Work items that have children but are not children themselves (inferred via absence of hierarchyReverse links).</rdfs:comment>
+  </owl:Class>
+  <!-- =========================== Useful property declarations =========================== -->
+  <owl:FunctionalProperty rdf:about="http://example.org/ontology#hasTitle"/>
+  <owl:SymmetricProperty rdf:about="http://example.org/ontology#collaboratesWith"/>
+  <owl:TransitiveProperty rdf:about="http://example.org/ontology#isPartOf"/>
+  <owl:TransitiveProperty rdf:about="http://example.org/ontology#parentOf"/>
+</rdf:RDF>
