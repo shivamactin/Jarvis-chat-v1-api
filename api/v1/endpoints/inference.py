@@ -1,8 +1,9 @@
-from fastapi import APIRouter,HTTPException,Request
+from fastapi import APIRouter,HTTPException,Request,Depends
 from pydantic import BaseModel
 from typing import Literal,Optional
 from fastapi.responses import JSONResponse,StreamingResponse
 from chat.chat import thinking_chat
+from api_utils.auth_utils import decode_token
 
 class ChatData(BaseModel):
     query:str
@@ -13,7 +14,7 @@ inference_router = APIRouter()
 
 
 @inference_router.post('/chat')
-async def chat_inference(request:Request,chat_inputs:ChatData)->StreamingResponse:
+async def chat_inference(request:Request,chat_inputs:ChatData,user=Depends(decode_token))->StreamingResponse:
     try:
         if not chat_inputs.query:
             raise HTTPException(status_code=400,detail="Please provide valid query.")

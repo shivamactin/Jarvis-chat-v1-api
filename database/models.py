@@ -10,3 +10,13 @@ class ChatSentimentLog(Base):
     answer = Column(Text, nullable=False)
     sentiment = Column(Text)
     feedback = Column(Text)
+
+
+class UserData(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer,primary_key=True,index=True)
+    email = Column(Text,nullable=False)
+    password = Column(Text,nullable=False)
+    role = Column(Text,nullable=False)
+    name = Column(Text,nullable=True)

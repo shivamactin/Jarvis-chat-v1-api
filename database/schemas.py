@@ -15,4 +15,23 @@ class ChatSentimentLogOut(BaseModel):
     feedback: str | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class UserDataCreate(BaseModel):
+    email:str
+    name:str
+    password:str
+    role:str
+
+class UserDataOut(BaseModel):
+    email:str
+    name:str
+    role:str
+
+    class Config:
+        from_attributes = True
+
+class LoginRequest(BaseModel):
+    email:str
+    password:str

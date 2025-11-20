@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse,StreamingResponse
 from database.database import get_db
 from database.crud import create_entry,list_all
 from database.schemas import ChatSentimentLogCreate
+from api_utils.auth_utils import decode_token
 import io
 import csv
 
@@ -11,7 +12,7 @@ files_router = APIRouter()
 
 
 @files_router.post('/store_sentiment')
-async def save_sentiment(resquest:Request,data:ChatSentimentLogCreate,db=Depends(get_db))->JSONResponse:
+async def save_sentiment(request:Request,data:ChatSentimentLogCreate,db=Depends(get_db),user=Depends(decode_token))->JSONResponse:
     try:
         if not data.question or not data.answer or not data.sentiment or not data.feedback:
             raise HTTPException(status_code=400,detail="Invalid data.")
@@ -29,7 +30,7 @@ async def save_sentiment(resquest:Request,data:ChatSentimentLogCreate,db=Depends
     
 
 @files_router.get('/get_stored_sentiments')
-async def download_sentiment(resquest:Request,db=Depends(get_db))->StreamingResponse:
+async def download_sentiment(request:Request,db=Depends(get_db),user=Depends(decode_token))->StreamingResponse:
     try:
         records = list_all(db)
 

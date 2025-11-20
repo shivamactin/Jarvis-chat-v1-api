@@ -38,7 +38,7 @@ async def thinking_chat(agent:Runnable,query:str,llm:Literal['gpt','anthropic'])
                 
                 if tool_messages:
                     for tool_msg in tool_messages:
-                        logs += f"**{node}**: {tool_msg.content:.50}\n"
+                        logs += f"**{node}**: {tool_msg.content:.300}\n"
 
             if ai_messages and isinstance(ai_messages[0].content,str):
                 yield ai_messages[0].content.encode("utf-8")

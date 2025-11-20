@@ -44,7 +44,7 @@ class CLICKHOUSE:
                             FROM system.tables
                             WHERE database = 'JARVIS_DB'
                                 AND (
-                                    name ILIKE 'zoho%' 
+                                    name ILIKE 'zoho%_d' 
                                     OR name ILIKE 'DEVOPS%'
                                     )
                             ORDER BY name
