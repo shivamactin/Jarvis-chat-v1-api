@@ -47,7 +47,7 @@ async def login(request:Request,response:Response,data:LoginData,db=Depends(get_
             response.set_cookie(
                 key="auth_token",
                 value=token,
-                httponly=True,
+                httponly=False,
                 secure=False,
                 samesite='lax',
                 max_age=3600*3,
@@ -66,7 +66,7 @@ async def logout(request:Request,response:Response,user=Depends(decode_token))->
         response = JSONResponse(content={"message": "Logged out successfully"})
         response.delete_cookie(
             key="auth_token",
-            httponly=True,
+            httponly=False,
             secure=False, 
             samesite='lax',
             path="/"
