@@ -60,7 +60,7 @@ async def download_sentiment(request:Request,db=Depends(get_db),user=Depends(dec
         raise HTTPException(status_code=500,detail=f"Failed to download file. {e}")    
 
 @files_router.get('/download_chat_history')
-def download_chat_history(request:Request,db=Depends(get_db))->StreamingResponse:
+def download_chat_history(request:Request,db=Depends(get_db),user=Depends(decode_token))->StreamingResponse:
     try:
         records = get_all_history(db)
 
