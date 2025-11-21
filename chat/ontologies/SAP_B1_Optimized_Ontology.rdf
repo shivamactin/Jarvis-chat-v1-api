@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:sap="http://example.org/sap-b1/ontology#"
+         xml:base="http://example.org/sap-b1/ontology#">
+
+  <owl:Ontology rdf:about="http://example.org/sap-b1/ontology#">
+    <rdfs:label xml:lang="en">SAP Business One Ontology</rdfs:label>
+    <rdfs:comment xml:lang="en">Comprehensive ontology for SAP Business One with explicit document flows, business logic, and inference-friendly relationships for chatbot integration</rdfs:comment>
+    <owl:versionInfo>2.0</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- ========================================
+       TOP-LEVEL ABSTRACT CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#SAPEntity">
+    <rdfs:label xml:lang="en">SAP Entity</rdfs:label>
+    <rdfs:comment xml:lang="en">Abstract top-level class for all SAP Business One entities including documents, master data, and transactions</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#Document">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SAPEntity"/>
+    <rdfs:label xml:lang="en">Business Document</rdfs:label>
+    <rdfs:comment xml:lang="en">A business document in SAP Business One such as orders, invoices, deliveries, payments, etc.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#MasterData">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SAPEntity"/>
+    <rdfs:label xml:lang="en">Master Data</rdfs:label>
+    <rdfs:comment xml:lang="en">Master data entities such as business partners, items, accounts that are referenced by transactional documents</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#TransactionalData">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SAPEntity"/>
+    <rdfs:label xml:lang="en">Transactional Data</rdfs:label>
+    <rdfs:comment xml:lang="en">Transactional data such as journal entries, payments that record business events</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#HeaderDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Header Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Document header containing summary information and linking to detail lines</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#DetailLine">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Detail Line</rdfs:label>
+    <rdfs:comment xml:lang="en">Individual line item within a document containing item-level details</rdfs:comment>
+  </owl:Class>
+
+  <!-- ========================================
+       MODULE CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#SalesDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Sales Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Sales-related documents including orders, deliveries, invoices, returns, and credit memos</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#PurchaseDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Purchase Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Purchase-related documents including purchase orders, goods receipts, AP invoices, and credit memos</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#FinancialDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Financial Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Financial documents including journal entries, payments that affect the general ledger</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#InventoryDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Inventory Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Inventory movement documents including goods receipts, goods issues, and inventory transfers</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ProductionDocument">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:label xml:lang="en">Production Document</rdfs:label>
+    <rdfs:comment xml:lang="en">Production and manufacturing documents including BOMs and production orders</rdfs:comment>
+  </owl:Class>
+
+  <!-- ========================================
+       SALES CYCLE CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ORDR">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">ORDR (Sales Order - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Sales Order Header: Customer request for goods or services, starting point of sales process. Leads to Delivery (ODLN) and Invoice (OINV).</rdfs:comment>
+    <sap:tableCode>ORDR</sap:tableCode>
+    <sap:businessProcess>Sales Order</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#RDR1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">RDR1 (Sales Order - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Sales Order Line Items: Individual items, quantities, and prices within a sales order</rdfs:comment>
+    <sap:tableCode>RDR1</sap:tableCode>
+    <sap:businessProcess>Sales Order Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ODLN">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">ODLN (Delivery Note - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Delivery Note Header: Records goods delivered to customer. Derived from Sales Order (ORDR), leads to Invoice (OINV).</rdfs:comment>
+    <sap:tableCode>ODLN</sap:tableCode>
+    <sap:businessProcess>Delivery Note</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#DLN1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">DLN1 (Delivery Note - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Delivery Note Line Items: Specific items and quantities delivered</rdfs:comment>
+    <sap:tableCode>DLN1</sap:tableCode>
+    <sap:businessProcess>Delivery Note Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OINV">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OINV (AR Invoice - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Accounts Receivable Invoice Header: Bills customer for goods/services. Derived from Delivery (ODLN), generates Journal Entry (OJDT).</rdfs:comment>
+    <sap:tableCode>OINV</sap:tableCode>
+    <sap:businessProcess>AR Invoice</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#INV1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">INV1 (AR Invoice - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">AR Invoice Line Items: Billed items with amounts and tax details</rdfs:comment>
+    <sap:tableCode>INV1</sap:tableCode>
+    <sap:businessProcess>AR Invoice Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ORIN">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">ORIN (AR Credit Memo - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">AR Credit Memo Header: Reduces customer's outstanding balance, typically for returns or corrections</rdfs:comment>
+    <sap:tableCode>ORIN</sap:tableCode>
+    <sap:businessProcess>AR Credit Memo</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#RIN1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">RIN1 (AR Credit Memo - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">AR Credit Memo Line Items</rdfs:comment>
+    <sap:tableCode>RIN1</sap:tableCode>
+    <sap:businessProcess>AR Credit Memo Detail</sap:businessProcess>
+  </owl:Class>
+
+  <!-- ========================================
+       PURCHASE CYCLE CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OPOR">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OPOR (Purchase Order - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Purchase Order Header: Document sent to vendor specifying items, quantities, and prices. Leads to Goods Receipt (OPDN) and AP Invoice (OPCH).</rdfs:comment>
+    <sap:tableCode>OPOR</sap:tableCode>
+    <sap:businessProcess>Purchase Order</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#POR1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">POR1 (Purchase Order - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Purchase Order Line Items: Items being purchased with quantities and prices</rdfs:comment>
+    <sap:tableCode>POR1</sap:tableCode>
+    <sap:businessProcess>Purchase Order Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OPDN">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OPDN (Goods Receipt PO - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Receipt Header: Records physical receipt of goods from vendor. Derived from Purchase Order (OPOR), leads to AP Invoice (OPCH).</rdfs:comment>
+    <sap:tableCode>OPDN</sap:tableCode>
+    <sap:businessProcess>Goods Receipt PO</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#PDN1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">PDN1 (Goods Receipt PO - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Receipt Line Items: Items received from vendor</rdfs:comment>
+    <sap:tableCode>PDN1</sap:tableCode>
+    <sap:businessProcess>Goods Receipt PO Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OPCH">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OPCH (AP Invoice - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Accounts Payable Invoice Header: Records liability to vendor. Derived from Goods Receipt (OPDN), generates Journal Entry (OJDT).</rdfs:comment>
+    <sap:tableCode>OPCH</sap:tableCode>
+    <sap:businessProcess>AP Invoice</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#PCH1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">PCH1 (AP Invoice - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">AP Invoice Line Items: Invoiced items with amounts</rdfs:comment>
+    <sap:tableCode>PCH1</sap:tableCode>
+    <sap:businessProcess>AP Invoice Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ORPC">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">ORPC (AP Credit Memo - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">AP Credit Memo Header: Corrects or reverses AP transaction, typically for returns to vendor</rdfs:comment>
+    <sap:tableCode>ORPC</sap:tableCode>
+    <sap:businessProcess>AP Credit Memo</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#RPC1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">RPC1 (AP Credit Memo - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">AP Credit Memo Line Items</rdfs:comment>
+    <sap:tableCode>RPC1</sap:tableCode>
+    <sap:businessProcess>AP Credit Memo Detail</sap:businessProcess>
+  </owl:Class>
+
+  <!-- ========================================
+       FINANCIAL CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OJDT">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#FinancialDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OJDT (Journal Entry - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Journal Entry Header: Financial postings to general ledger. Generated by business documents (invoices, payments) or created manually. Contains batch information and links to JDT1 lines.</rdfs:comment>
+    <sap:tableCode>OJDT</sap:tableCode>
+    <sap:businessProcess>Journal Entry</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#JDT1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#FinancialDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">JDT1 (Journal Entry - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Journal Entry Lines: Individual G/L account postings with debit and credit amounts. Each line posts to a specific account (OACT) in the chart of accounts.</rdfs:comment>
+    <sap:tableCode>JDT1</sap:tableCode>
+    <sap:businessProcess>Journal Entry Detail</sap:businessProcess>
+    <sap:documentFlowPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</sap:documentFlowPosition>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OACT">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#MasterData"/>
+    <rdfs:label xml:lang="en">OACT (Chart of Accounts)</rdfs:label>
+    <rdfs:comment xml:lang="en">Chart of Accounts: Hierarchical list of all G/L accounts. Journal entry lines (JDT1) post to these accounts. Contains account codes, names, and hierarchy.</rdfs:comment>
+    <sap:tableCode>OACT</sap:tableCode>
+    <sap:businessProcess>G/L Account Master</sap:businessProcess>
+  </owl:Class>
+
+  <!-- ========================================
+       MASTER DATA CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OCRD">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#MasterData"/>
+    <rdfs:label xml:lang="en">OCRD (Business Partner Master)</rdfs:label>
+    <rdfs:comment xml:lang="en">Business Partner Master: Central record for customers, vendors, and leads. Referenced by all sales and purchase documents via CardCode field.</rdfs:comment>
+    <sap:tableCode>OCRD</sap:tableCode>
+    <sap:businessProcess>Business Partner</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OITM">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#MasterData"/>
+    <rdfs:label xml:lang="en">OITM (Item Master)</rdfs:label>
+    <rdfs:comment xml:lang="en">Item Master: Master data for products and services. Referenced by document lines via ItemCode field. Contains pricing, inventory, and product details.</rdfs:comment>
+    <sap:tableCode>OITM</sap:tableCode>
+    <sap:businessProcess>Item Master</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OITW">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#MasterData"/>
+    <rdfs:label xml:lang="en">OITW (Item Warehouse Inventory)</rdfs:label>
+    <rdfs:comment xml:lang="en">Item Warehouse: Item quantities per warehouse location. Updated by inventory transactions.</rdfs:comment>
+    <sap:tableCode>OITW</sap:tableCode>
+    <sap:businessProcess>Warehouse Stock</sap:businessProcess>
+  </owl:Class>
+
+  <!-- ========================================
+       PRODUCTION CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OITT">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#ProductionDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#MasterData"/>
+    <rdfs:label xml:lang="en">OITT (Bill of Material - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">BOM Header: Defines components needed to produce finished product. Links item (OITM) to its components via ITT1 lines.</rdfs:comment>
+    <sap:tableCode>OITT</sap:tableCode>
+    <sap:businessProcess>Bill of Material</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#ITT1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#ProductionDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">ITT1 (Bill of Material - Components)</rdfs:label>
+    <rdfs:comment xml:lang="en">BOM Components: Individual component items required for production</rdfs:comment>
+    <sap:tableCode>ITT1</sap:tableCode>
+    <sap:businessProcess>BOM Component</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OWOR">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#ProductionDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OWOR (Production Order - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Production Order Header: Manages manufacturing execution. Produces finished items by consuming component items based on BOM.</rdfs:comment>
+    <sap:tableCode>OWOR</sap:tableCode>
+    <sap:businessProcess>Production Order</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#WOR1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#ProductionDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">WOR1 (Production Order - Components)</rdfs:label>
+    <rdfs:comment xml:lang="en">Production Order Components: Component items to be consumed in production</rdfs:comment>
+    <sap:tableCode>WOR1</sap:tableCode>
+    <sap:businessProcess>Production Component</sap:businessProcess>
+  </owl:Class>
+
+  <!-- ========================================
+       INVENTORY MOVEMENT CLASSES
+       ======================================== -->
+  
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OIGN">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OIGN (Goods Receipt - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Receipt Header: Increases inventory without purchase order</rdfs:comment>
+    <sap:tableCode>OIGN</sap:tableCode>
+    <sap:businessProcess>Goods Receipt</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#IGN1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">IGN1 (Goods Receipt - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Receipt Line Items</rdfs:comment>
+    <sap:tableCode>IGN1</sap:tableCode>
+    <sap:businessProcess>Goods Receipt Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OIGE">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OIGE (Goods Issue - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Issue Header: Decreases inventory, issues materials</rdfs:comment>
+    <sap:tableCode>OIGE</sap:tableCode>
+    <sap:businessProcess>Goods Issue</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#IGE1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">IGE1 (Goods Issue - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Issue Line Items</rdfs:comment>
+    <sap:tableCode>IGE1</sap:tableCode>
+    <sap:businessProcess>Goods Issue Detail</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#OWTR">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:label xml:lang="en">OWTR (Inventory Transfer - Header)</rdfs:label>
+    <rdfs:comment xml:lang="en">Inventory Transfer Header: Moves inventory between warehouses</rdfs:comment>
+    <sap:tableCode>OWTR</sap:tableCode>
+    <sap:businessProcess>Inventory Transfer</sap:businessProcess>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://example.org/sap-b1/ontology#WTR1">
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#InventoryDocument"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:label xml:lang="en">WTR1 (Inventory Transfer - Lines)</rdfs:label>
+    <rdfs:comment xml:lang="en">Inventory Transfer Line Items</rdfs:comment>
+    <sap:tableCode>WTR1</sap:tableCode>
+    <sap:businessProcess>Inventory Transfer Detail</sap:businessProcess>
+  </owl:Class>
+
+
+  <!-- ========================================
+       OBJECT PROPERTIES: DOCUMENT FLOW CHAIN
+       ======================================== -->
+  
+  <!-- Base Document Flow Property -->
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#derivesFromDocument">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:label xml:lang="en">derives from document</rdfs:label>
+    <rdfs:comment xml:lang="en">Links a document to its source/predecessor document in the business process flow (transitive property for chain traversal)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#leadsToDocument">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#derivesFromDocument"/>
+    <rdfs:label xml:lang="en">leads to document</rdfs:label>
+    <rdfs:comment xml:lang="en">Links a document to its successor document in the business process flow</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- EXPLICIT SALES FLOW: Order → Delivery → Invoice → Journal Entry -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#salesOrderCreatesDelivery">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ORDR"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#ODLN"/>
+    <rdfs:label xml:lang="en">sales order creates delivery</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 1→2: Sales Order (ORDR) leads to Delivery Note (ODLN)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#deliveryDerivedFromSalesOrder">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#salesOrderCreatesDelivery"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ODLN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#ORDR"/>
+    <rdfs:label xml:lang="en">delivery derived from sales order</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 2→1: Delivery Note (ODLN) references Sales Order (ORDR)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#deliveryCreatesInvoice">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ODLN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OINV"/>
+    <rdfs:label xml:lang="en">delivery creates invoice</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 2→3: Delivery Note (ODLN) leads to AR Invoice (OINV)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#invoiceDerivedFromDelivery">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#deliveryCreatesInvoice"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OINV"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#ODLN"/>
+    <rdfs:label xml:lang="en">invoice derived from delivery</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 3→2: AR Invoice (OINV) references Delivery Note (ODLN)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#invoiceGeneratesJournalEntry">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OINV"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OJDT"/>
+    <rdfs:label xml:lang="en">invoice generates journal entry</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 3→4: AR Invoice (OINV) generates Journal Entry (OJDT) for financial posting</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#journalEntryGeneratedByInvoice">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#invoiceGeneratesJournalEntry"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OJDT"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OINV"/>
+    <rdfs:label xml:lang="en">journal entry generated by invoice</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 4→3: Journal Entry (OJDT) was created by AR Invoice (OINV)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- EXPLICIT PURCHASE FLOW: PO → Goods Receipt → AP Invoice → Journal Entry -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#purchaseOrderCreatesGoodsReceipt">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPOR"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OPDN"/>
+    <rdfs:label xml:lang="en">purchase order creates goods receipt</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 1→2: Purchase Order (OPOR) leads to Goods Receipt (OPDN)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#goodsReceiptDerivedFromPurchaseOrder">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#purchaseOrderCreatesGoodsReceipt"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPDN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OPOR"/>
+    <rdfs:label xml:lang="en">goods receipt derived from purchase order</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 2→1: Goods Receipt (OPDN) references Purchase Order (OPOR)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#goodsReceiptCreatesAPInvoice">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPDN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OPCH"/>
+    <rdfs:label xml:lang="en">goods receipt creates AP invoice</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 2→3: Goods Receipt (OPDN) leads to AP Invoice (OPCH)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#apInvoiceDerivedFromGoodsReceipt">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#goodsReceiptCreatesAPInvoice"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPCH"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OPDN"/>
+    <rdfs:label xml:lang="en">AP invoice derived from goods receipt</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 3→2: AP Invoice (OPCH) references Goods Receipt (OPDN)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#apInvoiceGeneratesJournalEntry">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#leadsToDocument"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPCH"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OJDT"/>
+    <rdfs:label xml:lang="en">AP invoice generates journal entry</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 3→4: AP Invoice (OPCH) generates Journal Entry (OJDT)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#journalEntryGeneratedByAPInvoice">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#apInvoiceGeneratesJournalEntry"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OJDT"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OPCH"/>
+    <rdfs:label xml:lang="en">journal entry generated by AP invoice</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 4→3: Journal Entry (OJDT) created by AP Invoice (OPCH)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- ========================================
+       HEADER-DETAIL RELATIONSHIPS
+       ======================================== -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasDetailLine">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#belongsToHeader"/>
+    <rdfs:label xml:lang="en">has detail line</rdfs:label>
+    <rdfs:comment xml:lang="en">Links header document to its detail lines</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#belongsToHeader">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#HeaderDocument"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">belongs to header</rdfs:label>
+    <rdfs:comment xml:lang="en">Links detail line to its parent header (functional: one header per line)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- Specific Header-Detail Relationships -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasJournalLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OJDT"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:label xml:lang="en">has journal line</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 4→5: Journal Entry (OJDT) contains Journal Lines (JDT1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#journalLinePostsToAccount">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OACT"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">journal line posts to account</rdfs:label>
+    <rdfs:comment xml:lang="en">FLOW STEP 5→6: Journal Line (JDT1) posts to G/L Account (OACT)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#accountReceivesPosting">
+    <owl:inverseOf rdf:resource="http://example.org/sap-b1/ontology#journalLinePostsToAccount"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OACT"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:label xml:lang="en">account receives posting</rdfs:label>
+    <rdfs:comment xml:lang="en">G/L Account (OACT) receives postings from Journal Lines (JDT1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasSalesOrderLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ORDR"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#RDR1"/>
+    <rdfs:label xml:lang="en">has sales order line</rdfs:label>
+    <rdfs:comment xml:lang="en">Sales Order (ORDR) contains line items (RDR1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasDeliveryLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ODLN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#DLN1"/>
+    <rdfs:label xml:lang="en">has delivery line</rdfs:label>
+    <rdfs:comment xml:lang="en">Delivery Note (ODLN) contains line items (DLN1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasInvoiceLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OINV"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#INV1"/>
+    <rdfs:label xml:lang="en">has invoice line</rdfs:label>
+    <rdfs:comment xml:lang="en">AR Invoice (OINV) contains line items (INV1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasPurchaseOrderLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPOR"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#POR1"/>
+    <rdfs:label xml:lang="en">has purchase order line</rdfs:label>
+    <rdfs:comment xml:lang="en">Purchase Order (OPOR) contains line items (POR1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasGoodsReceiptLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPDN"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#PDN1"/>
+    <rdfs:label xml:lang="en">has goods receipt line</rdfs:label>
+    <rdfs:comment xml:lang="en">Goods Receipt (OPDN) contains line items (PDN1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasAPInvoiceLine">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#hasDetailLine"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OPCH"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#PCH1"/>
+    <rdfs:label xml:lang="en">has AP invoice line</rdfs:label>
+    <rdfs:comment xml:lang="en">AP Invoice (OPCH) contains line items (PCH1)</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- ========================================
+       BUSINESS PARTNER RELATIONSHIPS
+       ======================================== -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#involvesBusinessPartner">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OCRD"/>
+    <rdfs:label xml:lang="en">involves business partner</rdfs:label>
+    <rdfs:comment xml:lang="en">Links document to business partner (customer/vendor) via CardCode</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasCustomer">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#involvesBusinessPartner"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#SalesDocument"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OCRD"/>
+    <rdfs:label xml:lang="en">has customer</rdfs:label>
+    <rdfs:comment xml:lang="en">Sales document is for this customer</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasVendor">
+    <rdfs:subPropertyOf rdf:resource="http://example.org/sap-b1/ontology#involvesBusinessPartner"/>
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#PurchaseDocument"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OCRD"/>
+    <rdfs:label xml:lang="en">has vendor</rdfs:label>
+    <rdfs:comment xml:lang="en">Purchase document is from this vendor</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- ========================================
+       ITEM RELATIONSHIPS
+       ======================================== -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#containsItem">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OITM"/>
+    <rdfs:label xml:lang="en">contains item</rdfs:label>
+    <rdfs:comment xml:lang="en">Detail line references item via ItemCode</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#itemInWarehouse">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OITM"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OITW"/>
+    <rdfs:label xml:lang="en">item in warehouse</rdfs:label>
+    <rdfs:comment xml:lang="en">Item has inventory in warehouse</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasBillOfMaterial">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OITM"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OITT"/>
+    <rdfs:label xml:lang="en">has bill of material</rdfs:label>
+    <rdfs:comment xml:lang="en">Item has BOM definition for production</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <!-- ========================================
+       ACCOUNT HIERARCHY
+       ======================================== -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasParentAccount">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#OACT"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OACT"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:label xml:lang="en">has parent account</rdfs:label>
+    <rdfs:comment xml:lang="en">Account hierarchy in chart of accounts (transitive)</rdfs:comment>
+  </owl:ObjectProperty>
+
+
+  <!-- ========================================
+       DATA PROPERTIES - IDENTIFIERS
+       ======================================== -->
+  
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#tableCode">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#SAPEntity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">table code</rdfs:label>
+    <rdfs:comment xml:lang="en">SAP table code (e.g., ORDR, OINV, OJDT)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#businessProcess">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#SAPEntity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">business process</rdfs:label>
+    <rdfs:comment xml:lang="en">Business process name (e.g., Sales Order, Journal Entry)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#documentFlowPosition">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">document flow position</rdfs:label>
+    <rdfs:comment xml:lang="en">Position in document flow chain (1=Order, 2=Delivery, 3=Invoice, 4=Journal Entry, 5=Journal Line, 6=Account)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#docEntry">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdfs:label xml:lang="en">document entry</rdfs:label>
+    <rdfs:comment xml:lang="en">Unique internal document ID (DocEntry field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#docNum">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">document number</rdfs:label>
+    <rdfs:comment xml:lang="en">User-visible document number (DocNum field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#lineNum">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">line number</rdfs:label>
+    <rdfs:comment xml:lang="en">Line number within document (LineNum field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#transId">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">transaction ID</rdfs:label>
+    <rdfs:comment xml:lang="en">Link to journal entry (TransId field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#cardCode">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">business partner code</rdfs:label>
+    <rdfs:comment xml:lang="en">Customer/Vendor code (CardCode field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#cardName">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">business partner name</rdfs:label>
+    <rdfs:comment xml:lang="en">Customer/Vendor name (CardName field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#itemCode">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">item code</rdfs:label>
+    <rdfs:comment xml:lang="en">Item identifier (ItemCode field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#acctCode">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">account code</rdfs:label>
+    <rdfs:comment xml:lang="en">G/L account code (Account field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#baseEntry">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">base document entry</rdfs:label>
+    <rdfs:comment xml:lang="en">DocEntry of source document (BaseEntry field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#baseLine">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">base line number</rdfs:label>
+    <rdfs:comment xml:lang="en">LineNum of source line (BaseLine field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#baseType">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="en">base document type</rdfs:label>
+    <rdfs:comment xml:lang="en">Object type of source document (BaseType field: 17=Order, 15=Delivery, etc.)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================
+       DATA PROPERTIES - DATES
+       ======================================== -->
+  
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#docDate">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">document date</rdfs:label>
+    <rdfs:comment xml:lang="en">Document creation date (DocDate field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#taxDate">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">tax date</rdfs:label>
+    <rdfs:comment xml:lang="en">Date for tax reporting (TaxDate field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#dueDate">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:label xml:lang="en">due date</rdfs:label>
+    <rdfs:comment xml:lang="en">Payment/delivery due date (DueDate field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================
+       DATA PROPERTIES - AMOUNTS
+       ======================================== -->
+  
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#docTotal">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">document total</rdfs:label>
+    <rdfs:comment xml:lang="en">Total document amount (DocTotal field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#vatSum">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">VAT sum</rdfs:label>
+    <rdfs:comment xml:lang="en">Total VAT/tax amount (VatSum field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#debit">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">debit amount</rdfs:label>
+    <rdfs:comment xml:lang="en">Debit amount in local currency (Debit field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#credit">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#JDT1"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">credit amount</rdfs:label>
+    <rdfs:comment xml:lang="en">Credit amount in local currency (Credit field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#lineTotal">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">line total</rdfs:label>
+    <rdfs:comment xml:lang="en">Total amount for line (LineTotal field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#price">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">unit price</rdfs:label>
+    <rdfs:comment xml:lang="en">Price per unit (Price field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#quantity">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#DetailLine"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    <rdfs:label xml:lang="en">quantity</rdfs:label>
+    <rdfs:comment xml:lang="en">Quantity of items (Quantity field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================
+       DATA PROPERTIES - STATUS
+       ======================================== -->
+  
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#docStatus">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">document status</rdfs:label>
+    <rdfs:comment xml:lang="en">Document status: O=Open, C=Closed (DocStatus field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#canceled">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">canceled</rdfs:label>
+    <rdfs:comment xml:lang="en">Cancellation flag: Y/N (CANCELED field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="http://example.org/sap-b1/ontology#comments">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="en">comments</rdfs:label>
+    <rdfs:comment xml:lang="en">Document comments (Comments field)</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <!-- ========================================
+       PROPERTY CHAIN AXIOM FOR FULL FLOW
+       ======================================== -->
+  
+  <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#completeFlowFromOrderToAccount">
+    <rdfs:domain rdf:resource="http://example.org/sap-b1/ontology#ORDR"/>
+    <rdfs:range rdf:resource="http://example.org/sap-b1/ontology#OACT"/>
+    <owl:propertyChainAxiom rdf:parseType="Collection">
+      <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#salesOrderCreatesDelivery"/>
+      <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#deliveryCreatesInvoice"/>
+      <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#invoiceGeneratesJournalEntry"/>
+      <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#hasJournalLine"/>
+      <owl:ObjectProperty rdf:about="http://example.org/sap-b1/ontology#journalLinePostsToAccount"/>
+    </owl:propertyChainAxiom>
+    <rdfs:label xml:lang="en">complete flow from order to account</rdfs:label>
+    <rdfs:comment xml:lang="en">COMPLETE CHAIN: Sales Order → Delivery → Invoice → Journal Entry → Journal Line → G/L Account</rdfs:comment>
+  </owl:ObjectProperty>
+
+</rdf:RDF>

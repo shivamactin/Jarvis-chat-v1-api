@@ -46,6 +46,7 @@ class CLICKHOUSE:
                                 AND (
                                     name ILIKE 'zoho%_d' 
                                     OR name ILIKE 'DEVOPS%'
+                                    OR name ILIKE 'SAP_%'
                                     )
                             ORDER BY name
                             """
