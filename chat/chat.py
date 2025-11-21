@@ -3,7 +3,7 @@ from uuid import uuid4
 from langgraph.graph import MessagesState
 from langgraph.types import Runnable
 from langchain_core.messages import HumanMessage,AIMessage,ToolMessage
-from typing import Literal,AsyncGenerator
+from typing import Literal,AsyncGenerator,Dict
 import asyncio
 from api_utils.utils import RefrenceRegistry
 from fastapi import HTTPException
@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from database.crud import save_chat_in_db
 from database.schemas import SaveChatRequest
 
-async def thinking_chat(agent:Runnable,query:str,llm:Literal['gpt','anthropic'],db:Session)->AsyncGenerator[str,None]:
+async def thinking_chat(agent:Runnable,query:str,llm:Literal['gpt','anthropic'],db:Session)->AsyncGenerator[Dict[str,str],None]:
     try:
         agent:Runnable=RefrenceRegistry.get("agent")
         query_id:str = str(uuid4()) 
@@ -44,10 +44,10 @@ async def thinking_chat(agent:Runnable,query:str,llm:Literal['gpt','anthropic'],
 
             if ai_messages and isinstance(ai_messages[0].content,str):
                 save_chat_in_db(db,SaveChatRequest(question=query,answer=ai_messages[0].content))
-                yield ai_messages[0].content.encode("utf-8")
+                yield {"answer":ai_messages[0].content.encode("utf-8")}
                 return 
             
-            yield logs.encode("utf-8")
+            yield {"thinking":logs.encode("utf-8")}
             await asyncio.sleep(0)
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"Failed to generate response. {e}")
