@@ -49,7 +49,7 @@ async def login(request:Request,response:Response,data:LoginData,db=Depends(get_
                 value=token,
                 httponly=True,
                 secure=False,
-                samesite='none',
+                samesite='lax',
                 max_age=3600*3,
                 path='/'
             )
@@ -67,8 +67,8 @@ async def logout(request:Request,response:Response,user=Depends(decode_token))->
         response.delete_cookie(
             key="auth_token",
             httponly=True,
-            secure=True, 
-            samesite='none',
+            secure=False, 
+            samesite='lax',
             path="/"
         )
         return response
