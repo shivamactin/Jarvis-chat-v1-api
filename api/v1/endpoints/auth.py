@@ -42,7 +42,7 @@ async def login(request:Request,response:Response,data:LoginData,db=Depends(get_
             response = JSONResponse(content={
                 'email':user.email,
                 'role':user.role,
-                'name':user.name
+                'name':user.name,
             })
             response.set_cookie(
                 key="auth_token",

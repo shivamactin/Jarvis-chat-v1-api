@@ -35,3 +35,7 @@ class UserDataOut(BaseModel):
 class LoginRequest(BaseModel):
     email:str
     password:str
+
+class SaveChatRequest(BaseModel):
+    question:str
+    answer:str

@@ -1,7 +1,9 @@
 # crud.py
 from sqlalchemy.orm import Session
-from database.models import ChatSentimentLog,UserData
+from database.models import ChatSentimentLog,UserData,SaveChatResponse
 from database.schemas import ChatSentimentLogCreate,UserDataCreate
+from database.models import SaveChatResponse
+from database.schemas import SaveChatRequest
 
 def create_entry(db: Session, data: ChatSentimentLogCreate):
     entry = ChatSentimentLog(**data.model_dump())
@@ -15,6 +17,9 @@ def get_latest(db: Session):
 
 def list_all(db: Session):
     return db.query(ChatSentimentLog).all()
+
+def get_all_history(db:Session):
+    return db.query(SaveChatResponse).all()
 
 def update_feedback(db: Session, entry_id: int, feedback: str):
     record = db.query(ChatSentimentLog).filter(ChatSentimentLog.id == entry_id).first()
@@ -31,3 +36,9 @@ def create_user_data_entry(db:Session,data:UserDataCreate):
     db.refresh(entry)
     return entry
 
+def save_chat_in_db(db:Session,data:SaveChatRequest):
+    entry = SaveChatResponse(**data.model_dump())
+    db.add(entry)
+    db.commit()
+    db.refresh(entry)
+    return entry

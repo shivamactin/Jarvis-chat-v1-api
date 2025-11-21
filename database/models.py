@@ -20,3 +20,10 @@ class UserData(Base):
     password = Column(Text,nullable=False)
     role = Column(Text,nullable=False)
     name = Column(Text,nullable=True)
+
+class SaveChatResponse(Base):
+    __tablename__ = "chats"
+
+    id=Column(Integer,primary_key=True,index=True)
+    question=Column(Text,nullable=False)
+    answer=Column(Text,nullable=False)

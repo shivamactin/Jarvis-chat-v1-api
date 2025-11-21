@@ -5,6 +5,8 @@ from fastapi.responses import JSONResponse,StreamingResponse
 from chat.chat import thinking_chat
 from api_utils.auth_utils import decode_token
 
+from database.database import get_db
+
 class ChatData(BaseModel):
     query:str
     llm:Optional[Literal['gpt','anthropic']]
@@ -14,7 +16,7 @@ inference_router = APIRouter()
 
 
 @inference_router.post('/chat')
-async def chat_inference(request:Request,chat_inputs:ChatData,user=Depends(decode_token))->StreamingResponse:
+async def chat_inference(request:Request,chat_inputs:ChatData,user=Depends(decode_token),db=Depends(get_db))->StreamingResponse:
     try:
         if not chat_inputs.query:
             raise HTTPException(status_code=400,detail="Please provide valid query.")
@@ -24,7 +26,7 @@ async def chat_inference(request:Request,chat_inputs:ChatData,user=Depends(decod
         return StreamingResponse(thinking_chat(
             agent=request.app.state.agent,
             query=chat_inputs.query,
-            llm=llm),
+            llm=llm,db=db),
             media_type="text/plain; charset=utf-8")
 
     except HTTPException:

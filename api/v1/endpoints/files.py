@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
 from fastapi.responses import JSONResponse,StreamingResponse
 from database.database import get_db
-from database.crud import create_entry,list_all
+from database.crud import create_entry,list_all,get_all_history
 from database.schemas import ChatSentimentLogCreate
 from api_utils.auth_utils import decode_token
 import io
@@ -51,10 +51,38 @@ async def download_sentiment(request:Request,db=Depends(get_db),user=Depends(dec
         output,
         media_type="text/csv",
         headers={
-            "Content-Disposition": "attachment; filename=chat_history.csv"
+            "Content-Disposition": "attachment; filename=chat_sentiment_history.csv"
         }
     )
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"Failed to download file. {e}")    
+
+@files_router.get('/download_chat_history')
+def download_chat_history(request:Request,db=Depends(get_db))->StreamingResponse:
+    try:
+        records = get_all_history(db)
+
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(["id", "question", "answer"])
+        for r in records:
+            writer.writerow([
+                r.id,
+                r.question,
+                r.answer
+            ])
+
+        output.seek(0)
+        return StreamingResponse(
+        output,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": "attachment; filename=chat_history.csv"
+        }
+    )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=f"Failed to download chat history. {e}")
