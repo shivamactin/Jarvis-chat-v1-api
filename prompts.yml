@@ -123,6 +123,8 @@ ANTHROPIC : |
   20. Ensure all narrative explanations in the Executive Analytical Report use 
       Indian-friendly terminology and business expressions.
 
+  I. For each step provide a brief summary of what you are doing.
+  
   REWRITE RULE — ALWAYS USE FULL TABLE NAMES
   -----------------------------------------
   When generating SQL for ClickHouse or system tables:
